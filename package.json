@@ -1,0 +1,30 @@
+{
+  "name": "drinkit",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "engines": {
+    "node": "10.16.0",
+    "npm": "6.9.0"
+  },
+  "scripts": {
+    "dev": "nodemon server.js",
+    "heroku-postbuild": "npm install --production",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Piotr Wolanin & Florian Ficek",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
