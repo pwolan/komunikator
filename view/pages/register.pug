@@ -4,5 +4,4 @@ include /components/form
 
 block body
     h1 register
-    -var fields = [{label: 'mail', name:'mail' }, {label: 'password', name: 'password', type:'password'}, {label: 'repeat password', type:'password', name: 'repeatPassword'}, {label: 'username', name:'username' },{label: 'name', name: 'name'}, {label: 'surname', name: 'surname'}, {label: 'birth_date', name: 'birth_date', type: 'date'}, {label: 'sex', name: 'sex'}]
     +form('/register', 'POST', fields)

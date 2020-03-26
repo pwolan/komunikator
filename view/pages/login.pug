@@ -4,5 +4,4 @@ include /components/form
 
 block body
     h1 login
-    -var fields = [{label: 'username', name: 'username'}, {label: 'password', name: 'password', type: 'password'}]
     +form('/login', 'POST', fields)

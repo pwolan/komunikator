@@ -4,4 +4,5 @@ mixin form(action, method, fields)
             .form-group
                 label=field.label
                 input(name=field.name type=(field.type || 'text'))
+                div.error-msg=field.errorMsg 
         button#submit submit
