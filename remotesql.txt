@@ -1,0 +1,3 @@
+Hostname: remotemysql.com Port: 3306
+Username: nfDmwbsToQ
+Password: M7lsEFqLPa

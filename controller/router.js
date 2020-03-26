@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require("./auth.controller");
 
 router.get("/", (req, res) => {
-  res.end("Start");
+  res.render("index.pug");
 });
 
 //authentication

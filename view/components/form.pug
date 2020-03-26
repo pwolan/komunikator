@@ -1,0 +1,7 @@
+mixin form(action, method, fields)
+    form(action=action method=method)
+        -for(field of fields)
+            .form-group
+                label=field.label
+                input(name=field.name type=(field.type || 'text'))
+        button#submit submit

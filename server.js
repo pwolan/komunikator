@@ -4,6 +4,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const cors = require("cors");
+const { store } = require("./database/config");
 
 //template engine
 app.set("views", path.join(__dirname, "view/pages"));
@@ -19,6 +20,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
 app.use(
   session({
+    store: store,
     key: "session_sid",
     secret: "secret",
     resave: true,
