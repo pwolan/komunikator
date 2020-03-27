@@ -1,6 +1,5 @@
 const User = require("../model/user");
 const { checkLogin, checkRegister, validation } = require("../middlewares/validation");
-const { validationResult } = require("express-validator");
 const { loginFields, registerFields } = require("../helpers/authFields");
 
 module.exports = {
@@ -9,7 +8,7 @@ module.exports = {
   },
   submitLogin: [
     checkLogin,
-    (req, res) => {
+    async (req, res) => {
       //validation
       const { succes, fields } = validation(req, loginFields);
       if (!succes) {
@@ -17,9 +16,17 @@ module.exports = {
       }
 
       const { username, password } = req.body;
-      console.log(req.body);
-      User.login(username, password);
-      res.end();
+      User.login(username, password, (succes, user) => {
+        console.log(succes);
+        if (succes) {
+          //save user in session
+          console.log(user);
+          req.session.user = user;
+          res.redirect("/");
+        } else {
+          res.render("login", { fields });
+        }
+      });
     }
   ],
   renderRegister(req, res) {
@@ -35,7 +42,7 @@ module.exports = {
       }
       let data = req.body;
       User.register(data);
-      res.redirect("/");
+      res.redirect("/login");
     }
   ],
   logout(req, res) {}

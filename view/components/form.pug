@@ -3,6 +3,6 @@ mixin form(action, method, fields)
         -for(field of fields)
             .form-group
                 label=field.label
-                input(name=field.name type=(field.type || 'text'))
+                input(name=field.name type=(field.type || 'text') value=(field.value || ''))
                 div.error-msg=field.errorMsg 
         button#submit submit

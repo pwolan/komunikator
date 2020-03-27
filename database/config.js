@@ -1,20 +1,24 @@
 require("dotenv").config();
+const util = require("util");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const mysql = require("mysql");
+// const db = require('mysql-promise')()
 
-// const con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//   password: "WybrykNatury_ZwanyWirusemLubZarazą25",
-//   database: "drinktogether"
-// });
-const con = mysql.createConnection({
+const connection = mysql.createPool({
+  connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE
 });
+// const opts = {
+//   host: process.env.DB_HOST,
+//   user: process.env.DB_USER,
+//   password: process.env.DB_PASSWORD,
+//   database: process.env.DB_DATABASE
+// };
+// db.configure(opts,mysql)
 
 const sessionStore = new MySQLStore(
   {
@@ -29,12 +33,9 @@ const sessionStore = new MySQLStore(
       }
     }
   },
-  con
+  connection
 );
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-
+connection.query = util.promisify(connection.query);
+con = connection;
 module.exports = { con, sessionStore };

@@ -10,21 +10,20 @@ module.exports = {
       }
     });
   },
-  login(username, password) {
+  async login(username, password, callback) {
     var sql = "SELECT * FROM users WHERE username = ?";
-    con.query(sql, [username], function(err, result) {
-      if (err) {
-        throw err;
-      }
-      if (result > 0) {
-        if (result[0].password == password) {
-          return { succes: true, user: result[0] };
-        } else {
-          return { succes: false, user: null };
-        }
+
+    try {
+      const result = await con.query(sql, [username]);
+      if (result[0].password == password) {
+        delete result[0].password;
+        callback(true, result[0]);
       } else {
-        return { succes: false, user: null };
+        callback(false, null);
       }
-    });
+    } catch (err) {
+      console.log(err);
+      callback(false, null);
+    }
   }
 };

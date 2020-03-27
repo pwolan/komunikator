@@ -16,12 +16,17 @@ module.exports = {
       .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])")
   ],
   checkRegister: [
-    check("mail")
+    check("mail", "cos")
       .normalizeEmail()
       .isEmail()
       .withMessage("You must provide email")
       .isLength({ max: 50 })
-      .withMessage("Mail must be shorter than 50 characters"),
+      .withMessage("Mail must be shorter than 50 characters")
+      .bail()
+      .custom((value, { req, res, next }) => {
+        console.log(value);
+        return value;
+      }),
     //find is mail already in base
     //   .custom(mail => {}),
     check("password")
@@ -68,31 +73,25 @@ module.exports = {
   ],
   validation(req, templateFields) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const err = errors.array();
-      let fields = templateFields.map(field => {
-        console.log("field", field);
-        let obj = err.find(e => e.param === field.name);
-        if (obj) {
-          console.log(obj);
-          return {
-            ...field,
-            errorMsg: obj.msg
-          };
-        } else return field;
-      });
-      console.log("final data: ", fields);
-      return {
-        succes: false,
-        fields
+    const err = errors.array();
+    let fields = templateFields.map(field => {
+      // console.log("field", field);
+      let obj = err.find(e => e.param === field.name);
+      console.log(obj);
+      let returnValue = {
+        ...field,
+        errorMsg: obj ? obj.msg : "",
+        value: req.body[field.name]
       };
-
-      // return res.status(422).json(fields);
-    } else {
-      return {
-        succes: false,
-        field: null
-      };
-    }
+      if (field.name == "password" || field.name == "repeatPassword") {
+        delete returnValue.value;
+      }
+      return returnValue;
+    });
+    console.log("final data: ", fields);
+    return {
+      succes: errors.isEmpty(),
+      fields
+    };
   }
 };
