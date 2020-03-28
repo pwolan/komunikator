@@ -1,29 +1,55 @@
 const { con } = require("../database/config");
+const bcrypt = require("bcrypt");
 
 module.exports = {
-  register({ mail, password, username, name, surname, birth_date, sex }) {
-    var sql =
-      "INSERT INTO users (username, password, name, surname, email, birth_date, sex) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    con.query(sql, [username, password, name, surname, mail, birth_date, sex], function(error) {
-      if (error) {
-        throw error;
-      }
-    });
+  async register({ mail, password, username, name, surname, birth_date, sex }) {
+    try {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      var sql =
+        "INSERT INTO users (username, password, name, surname, email, birth_date, sex) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      con.query(sql, [username, hashedPassword, name, surname, mail, birth_date, sex]);
+    } catch (error) {
+      console.log(error);
+    }
   },
   async login(username, password, callback) {
     var sql = "SELECT * FROM users WHERE username = ?";
 
     try {
       const result = await con.query(sql, [username]);
-      if (result[0].password == password) {
+      if (await bcrypt.compare(password, result[0].password)) {
         delete result[0].password;
         callback(true, result[0]);
       } else {
         callback(false, null);
       }
     } catch (err) {
-      console.log(err);
+      console.log("Lost connection or invalid password");
       callback(false, null);
+    }
+  },
+  async promiseLogin(username, password) {
+    var sql = "SELECT * FROM users WHERE username = ?";
+    try {
+      const result = await con.query(sql, [username]);
+      if (await bcrypt.compare(password, result[0].password)) {
+        delete result[0].password;
+        return {
+          succes: true,
+          user: result
+        };
+      } else {
+        return {
+          succes: false,
+          user: result
+        };
+      }
+    } catch (err) {
+      console.log("Lost connection or invalid password");
+      return {
+        succes: false,
+        user: null
+      };
     }
   },
   async isMailExist(mail) {

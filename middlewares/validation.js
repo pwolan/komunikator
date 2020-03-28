@@ -4,19 +4,16 @@ const User = require("../model/user");
 module.exports = {
   checkLogin: [
     check("username")
-      .not()
-      .isEmpty()
+      .notEmpty()
       .withMessage("Provide a username")
-      .bail()
-      .custom((value, { req, res }) => {
+      .custom(async (value, { req, res }) => {
         const { username, password } = req.body;
-        User.login(username, password, succes => {
-          if (succes) {
-            return value;
-          } else {
-            throw new Error("Invalid username or password");
-          }
-        });
+        let { succes } = await User.promiseLogin(username, password);
+        if (succes) {
+          return value;
+        } else {
+          throw new Error("Invalid username or password hhh");
+        }
       }),
     check("password")
       .isLength({ min: 8 })
@@ -72,16 +69,21 @@ module.exports = {
     check("name")
       .isLength({ min: 2, max: 25 })
       .withMessage("Name must be at least 2 characters")
-      .isAlpha()
+      // .matches(/^[A-Za-z-zżźćńółęąśŻŹĆĄŚĘŁÓŃ]+$/)
+      .isAlpha("pl-PL")
       .withMessage("Name must contain only letters"),
     check("surname")
       .isLength({ min: 2, max: 50 })
       .withMessage("Surname must be at least 2 characters")
-      .isAlpha()
+      .isAlpha("pl-PL")
       .withMessage("Surname must contain only letters"),
     check("birth_date")
       .isBefore(new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18).toString())
-      .withMessage("You must be adult!")
+      .withMessage("You must be adult!"),
+    check("sex")
+      .notEmpty()
+      .withMessage("Are you genderless!? Come on!"),
+    check("terms", "You must accept before you get into!").notEmpty()
   ],
   validation(req, templateFields) {
     const errors = validationResult(req);
@@ -89,7 +91,7 @@ module.exports = {
     let fields = templateFields.map(field => {
       // console.log("field", field);
       let obj = err.find(e => e.param === field.name);
-      console.log(obj);
+      // console.log(obj);
       let returnValue = {
         ...field,
         errorMsg: obj ? obj.msg : "",
@@ -100,7 +102,6 @@ module.exports = {
       }
       return returnValue;
     });
-    console.log("final data: ", fields);
     return {
       succes: errors.isEmpty(),
       fields

@@ -3,22 +3,16 @@ const util = require("util");
 const session = require("express-session");
 const MySQLStore = require("express-mysql-session")(session);
 const mysql = require("mysql");
-// const db = require('mysql-promise')()
 
-const connection = mysql.createPool({
-  connectionLimit: 10,
+
+const connection = mysql.createConnection({
+  // connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE
 });
-// const opts = {
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASSWORD,
-//   database: process.env.DB_DATABASE
-// };
-// db.configure(opts,mysql)
+
 
 const sessionStore = new MySQLStore(
   {

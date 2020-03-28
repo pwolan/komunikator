@@ -14,18 +14,14 @@ module.exports = {
       if (!succes) {
         return res.render("login", { fields });
       }
-
       const { username, password } = req.body;
       User.login(username, password, (succes, user) => {
-        console.log(succes);
         if (succes) {
           //save user in session
-          console.log(user);
           req.session.user = user;
           res.redirect("/user");
         } else {
-          let errorStatus = "Invalid login or password";
-          res.render("login", { fields, errorStatus });
+          res.render("login", { fields });
         }
       });
     }

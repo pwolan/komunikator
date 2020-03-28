@@ -2,3 +2,13 @@
   color: red;
   font-size: 12px;
 }
+
+h2.login-link,
+h2.register-link {
+  cursor: pointer;
+}
+
+h2.login-link:hover,
+h2.register-link:hover {
+  opacity: 0.8;
+}

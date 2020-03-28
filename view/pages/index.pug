@@ -1,17 +1,32 @@
 extends /boilerplate
-include /components/form
+include /layout/navbar
+include /layout/footer
+
+block head
+  link(href='css/one-page-wonder.min.css' rel='stylesheet') 
+  link(href='css/beer.css' rel="stylesheet")
+  link(href='css/smallbeer.css' rel="stylesheet")
+
+block scripts
+  script(src='js/beer.js')
 
 block body
-  header.masthead.text-center.text-white
-    .masthead-content
-      .container
+  +navbar()
+  header.text-center.text-white
+    .beer
+      .beer__container
         h1.masthead-heading.mb-0 Don't drink alone
-        h2.masthead-subheading.mb-0 Let's find an alco-friend!
-        a.btn.btn-primary.btn-xl.rounded-pill.mt-5(href='#') Learn More
-    .bg-circle-1.bg-circle
-    .bg-circle-2.bg-circle
-    .bg-circle-3.bg-circle
-    .bg-circle-4.bg-circle
+        h2.masthead-subheading.mb-0 Let's find some friends!
+      a(href="/login")
+        .bcontainer
+          h1 Join!
+          .borderbox
+            .glass  
+              .inner
+                - var i = 0;
+                while (i++ < 12)
+                  .bubble
+  #down
   section
 
   section
@@ -36,9 +51,4 @@ block body
             h2.display-4 Let there be rock!
             p
               | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.
-
-
-
-
-
-
+  +footer()

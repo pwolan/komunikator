@@ -1,0 +1,33 @@
+.form-container {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 40px 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.form-login {
+  width: 400px;
+}
+.form-register {
+  /* width: 700px; */
+}
+.form-group {
+  position: relative;
+}
+.form-control {
+  padding-left: 40px;
+}
+.i-block {
+  position: absolute;
+  width: 40px;
+  height: 38px;
+  text-align: center;
+}
+i {
+  margin-top: 11px;
+  font-size: 18px;
+}
+a {
+  /* color: #006ce8; */
+}

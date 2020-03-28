@@ -2,6 +2,75 @@ extends /boilerplate
 
 include /components/form
 
+block head
+    link(href='css/beer.css' rel="stylesheet")
+    link(href='css/form.css' rel="stylesheet")
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+
+block scripts
+    script(src='js/beer.js')
+
 block body
-    h1 register
-    +form('/register', 'POST', fields)
+    .beer
+        .form-container.form-register.mx-auto.rounded
+            h1.text-center.text-white.mb-3 Register
+            form(action='/register' method='POST')
+                .form-row
+                    .form-group.col-12
+                        .i-block
+                            i.fa(class=fields[0].icon)
+                        input.form-control(name=fields[0].name placeholder=fields[0].placeholder type=(fields[0].type || 'text') value=(fields[0].value || '') autocomplete=fields[0].name)
+                        div.error-msg=fields[0].errorMsg 
+                   
+                .form-row
+                    .form-group.col-12.col-md-6
+                        .i-block
+                            i.fa(class=fields[1].icon)
+                        input.form-control(name=fields[1].name placeholder=fields[1].placeholder type=(fields[1].type || 'text') value=(fields[1].value || '') autocomplete=fields[1].name)
+                        div.error-msg=fields[1].errorMsg 
+                    .form-group.col-12.col-md-6
+                        .i-block
+                            i.fa(class=fields[2].icon)
+                        input.form-control(name=fields[2].name placeholder=fields[2].placeholder type=(fields[2].type || 'text') value=(fields[2].value || '') autocomplete=fields[2].name)
+                        div.error-msg=fields[2].errorMsg 
+                .form-row
+                    .form-group.col-12
+                        .i-block
+                            i.fa(class=fields[3].icon)
+                        input.form-control(name=fields[3].name placeholder=fields[3].placeholder type=(fields[3].type || 'text') value=(fields[3].value || '') autocomplete=fields[3].name)
+                        div.error-msg=fields[3].errorMsg 
+                .form-row
+                    .form-group.col-12.col-md-6
+                        .i-block
+                            i.fa(class=fields[4].icon)
+                        input.form-control(name=fields[4].name placeholder=fields[4].placeholder type=(fields[4].type || 'text') value=(fields[4].value || '') autocomplete=fields[4].name)
+                        div.error-msg=fields[4].errorMsg 
+                    .form-group.col-12.col-md-6
+                        .i-block
+                            i.fa(class=fields[5].icon)
+                        input.form-control(name=fields[5].name placeholder=fields[5].placeholder type=(fields[5].type || 'text') value=(fields[5].value || '') autocomplete=fields[5].name)
+                        div.error-msg=fields[5].errorMsg 
+                .form-row
+                    .form-group.col-12.col-md-6
+                        .i-block
+                            i.fa(class=fields[6].icon)
+                        input.form-control(name=fields[6].name placeholder=fields[6].placeholder type=(fields[6].type || 'text') value=(fields[6].value || '') autocomplete=fields[6].name)
+                        div.error-msg=fields[6].errorMsg 
+                    .form-group.col-12.col-md-6
+                        .i-block
+                            i.fa(class=fields[7].icon)
+                        select.form-control(name=fields[7].name value=fields[7].value || "")
+                            option(selected disabled)=fields[7].placeholder
+                            option(value="k") Female
+                            option(value="m") Male
+                        div.error-msg=fields[7].errorMsg 
+                .form-row
+                    .form-check.mb-2
+                        input.form-check-input(type="checkbox" value="accepted" name=fields[8].name)
+                        label.form-check-label=fields[8].label
+                        div.error-msg=fields[8].errorMsg
+
+                button.btn.btn-lg.btn-primary.w-100.my-2 Sign Up
+                div Have you already account?
+                    a(href='/login') Log in
+

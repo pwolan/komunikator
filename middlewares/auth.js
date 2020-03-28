@@ -8,7 +8,7 @@ module.exports = {
   },
   redirectHome(req, res, next) {
     if (req.session.user && req.cookies.session_sid) {
-      res.redirect("/");
+      res.redirect("/user");
     } else {
       next();
     }

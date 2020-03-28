@@ -1,5 +1,5 @@
 mixin navbar(links)
-    nav.navbar.navbar-expand-lg.navbar-dark.navbar-custom.fixed-top
+    nav#mainNavbar.navbar.navbar-expand-lg.navbar-dark.navbar-custom.fixed-top
         .container
             a.navbar-brand(href='/') Let's Drink Together
             button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarResponsive' aria-controls='navbarResponsive' aria-expanded='false' aria-label='Toggle navigation')
@@ -7,7 +7,7 @@ mixin navbar(links)
             #navbarResponsive.collapse.navbar-collapse
                 ul.navbar-nav.ml-auto
                     li.nav-item
-                        a.nav-link(href='/register') Sign Up
+                        a.nav-link.register-link(href='/register') Sign Up
                     li.nav-item
-                        a.nav-link(href='/login') Log In
+                        a.nav-link.login-link(href='/login') Log In
 

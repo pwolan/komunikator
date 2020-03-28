@@ -1,8 +1,19 @@
 extends /boilerplate
 
 include /components/form
-include /layout/navbar
+
+block head
+    link(href='css/beer.css' rel="stylesheet")
+    link(href='css/form.css' rel="stylesheet")
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+
+block scripts
+    script(src='js/beer.js')
 
 block body
-    h1 login
-    +form('/login', 'POST', fields)
+    .beer
+        .form-container.form-login.mx-auto.rounded 
+            h1.text-center.text-white.mb-3 Login
+            +form('/login', 'POST', fields)
+                div Need account?
+                    a(href='/register') Register

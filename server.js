@@ -18,12 +18,13 @@ app.use(cors());
 
 app.use(
   sassMiddleware({
-    src: path.join(__dirname, "public/sass"),
-    dest: path.join(__dirname, "public/css"),
-    // debug: true,
+    src: __dirname + "/public",
+    dest: __dirname + "/public",
+    outputStyle: "compressed",
+    // debug: true
   })
 );
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 //cookies and session
 app.use(cookieParser());

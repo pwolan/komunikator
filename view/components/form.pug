@@ -2,7 +2,11 @@ mixin form(action, method, fields)
     form(action=action method=method)
         -for(field of fields)
             .form-group
-                label=field.label
-                input(name=field.name type=(field.type || 'text') value=(field.value || ''))
+                .i-block
+                    i.fa(class=field.icon)
+                input.form-control(name=field.name placeholder=field.placeholder type=(field.type || 'text') value=(field.value || '') autocomplete=field.name)
                 div.error-msg=field.errorMsg 
-        button#submit submit
+        button.btn.btn-lg.btn-primary.w-100.my-2 Sign in
+        block
+
+        
