@@ -1,11 +1,23 @@
 const { check, validationResult } = require("express-validator");
+const User = require("../model/user");
 
 module.exports = {
   checkLogin: [
     check("username")
       .not()
       .isEmpty()
-      .withMessage("Provide a username"),
+      .withMessage("Provide a username")
+      .bail()
+      .custom((value, { req, res }) => {
+        const { username, password } = req.body;
+        User.login(username, password, succes => {
+          if (succes) {
+            return value;
+          } else {
+            throw new Error("Invalid username or password");
+          }
+        });
+      }),
     check("password")
       .isLength({ min: 8 })
       .withMessage("Password must be at least 8 characters")
@@ -23,12 +35,13 @@ module.exports = {
       .isLength({ max: 50 })
       .withMessage("Mail must be shorter than 50 characters")
       .bail()
-      .custom((value, { req, res, next }) => {
-        console.log(value);
-        return value;
+      .custom(async (value, { req, res, next }) => {
+        if (await User.isMailExist(value)) {
+          throw new Error("Mail already exist");
+        } else {
+          return value;
+        }
       }),
-    //find is mail already in base
-    //   .custom(mail => {}),
     check("password")
       .isLength({ min: 8, max: 100 })
       .withMessage("Password must be at least 8 characters")
@@ -50,8 +63,7 @@ module.exports = {
         } else {
           return value;
         }
-      })
-      .withMessage("Passwords don't match"),
+      }),
     check("username")
       .trim()
       .notEmpty()

@@ -22,9 +22,10 @@ module.exports = {
           //save user in session
           console.log(user);
           req.session.user = user;
-          res.redirect("/");
+          res.redirect("/user");
         } else {
-          res.render("login", { fields });
+          let errorStatus = "Invalid login or password";
+          res.render("login", { fields, errorStatus });
         }
       });
     }
@@ -45,5 +46,16 @@ module.exports = {
       res.redirect("/login");
     }
   ],
-  logout(req, res) {}
+  logout(req, res) {
+    req.session.destroy(err => {
+      if (err) {
+        console.log(err);
+        backURL = req.header("Referer") || "/";
+        res.redirect(backURL);
+      } else {
+        res.clearCookie();
+        res.redirect("/login");
+      }
+    });
+  }
 };

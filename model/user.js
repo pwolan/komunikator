@@ -25,5 +25,18 @@ module.exports = {
       console.log(err);
       callback(false, null);
     }
+  },
+  async isMailExist(mail) {
+    let sql = `
+      SELECT email FROM users
+      WHERE email=?
+    `;
+    try {
+      const result = await con.query(sql, [mail]);
+      return result.length > 0;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 };

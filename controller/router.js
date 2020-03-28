@@ -1,21 +1,25 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("./auth.controller");
+const { redirectLogin, redirectHome } = require("../middlewares/auth");
 
-router.get("/", (req, res) => {
+router.get("/", redirectLogin, (req, res) => {
   res.render("index.pug");
 });
 
 //authentication
 router
-  .route("/login")
+  .route("/login", redirectHome)
   .get(auth.renderLogin)
   .post(auth.submitLogin);
 
 router
-  .route("/register")
+  .route("/register", redirectHome)
   .get(auth.renderRegister)
   .post(auth.submitRegister);
 
-router.get("/logout", auth.logout);
+router.get("/logout", redirectHome, auth.logout);
+
+//user
+router.use("/user", redirectLogin, require("./user.controller"));
 module.exports = router;
