@@ -2,6 +2,44 @@ extends /boilerplate
 
 include /layout/navbar
 
+block head
+    link(rel="stylesheet", href="css/user.css", attr)
+    script(src="https://kit.fontawesome.com/9eef710565.js")
+
 block body
-    h1=username
-    a(href='/logout') logout
+    .row
+        .col-3.align-items-center.justify-content-center.d-flex
+            i.fa.fa-beer
+            span.h5.m-0 Drink together!
+        .col-9
+            nav.navbar.navbar-expand-md.navbar-dark.bg-primary
+                button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation")
+                    span.navbar-toggler-icon
+                .collapse.navbar-collapse#navbarContent
+                    ul.nav.navbar-nav.nav-pills.nav-justified
+                        li.nav-item.px-3.rounded
+                            a.nav-link.text-white(href='#') Main
+                        li.nav-item.px-3.rounded
+                            a.nav-link.text-white(href='#') Groups
+                        li.nav-item.px-3.rounded
+                            a.nav-link.text-white(href='#') Costam
+                        li.nav-item.px-3.rounded
+                            a.nav-link.text-white(href='#') +Category
+                .user-info-container.ml-auto.d-flex
+                    .user-info-avatar-container
+                        img.user-info-avatar(src="https://www.w3schools.com/howto/img_avatar.png")
+                    .text-white
+                        .user-info-username.px-2=username 
+                        select.custom-select.user-info-status.bg-transparent.border-0.px-2.text-white
+                            option(value="aviable") aviable
+                            option(value="unAviable") unaviable
+            //- h1=username
+            //- a.text-white(href='/logout') logout
+    .row
+        .col-3
+            h1 friends
+        .col-6 
+            h1 chat    
+        .col-3
+            h1 Online user
+        

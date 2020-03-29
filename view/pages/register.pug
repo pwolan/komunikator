@@ -11,8 +11,8 @@ block scripts
     script(src='js/beer.js')
 
 block body
-    .beer
-        .form-container.form-register.mx-auto.rounded
+    .beer.form-center-wrapper
+        .form-container.rounded
             h1.text-center.text-white.mb-3 Register
             form(action='/register' method='POST')
                 .form-row
@@ -20,8 +20,7 @@ block body
                         .i-block
                             i.fa(class=fields[0].icon)
                         input.form-control(name=fields[0].name placeholder=fields[0].placeholder type=(fields[0].type || 'text') value=(fields[0].value || '') autocomplete=fields[0].name)
-                        div.error-msg=fields[0].errorMsg 
-                   
+                        div.error-msg=fields[0].errorMsg                  
                 .form-row
                     .form-group.col-12.col-md-6
                         .i-block

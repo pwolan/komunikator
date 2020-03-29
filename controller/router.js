@@ -4,7 +4,7 @@ const auth = require("./auth.controller");
 const { redirectLogin, redirectHome } = require("../middlewares/auth");
 const { loginFields, registerFields } = require("../helpers/authFields");
 
-router.get("/", (req, res) => {
+router.get("/",redirectHome, (req, res) => {
   res.render("index.pug", { loginFields, registerFields });
 });
 

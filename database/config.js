@@ -5,7 +5,7 @@ const MySQLStore = require("express-mysql-session")(session);
 const mysql = require("mysql");
 
 
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
   // connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

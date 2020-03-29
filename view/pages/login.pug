@@ -11,8 +11,8 @@ block scripts
     script(src='js/beer.js')
 
 block body
-    .beer
-        .form-container.form-login.mx-auto.rounded 
+    .beer.form-center-wrapper
+        .form-container.rounded 
             h1.text-center.text-white.mb-3 Login
             +form('/login', 'POST', fields)
                 div Need account?
