@@ -4,10 +4,16 @@ const auth = require("./auth.controller");
 const { redirectLogin, redirectHome } = require("../middlewares/auth");
 const { loginFields, registerFields } = require("../helpers/authFields");
 
-router.get("/",redirectHome, (req, res) => {
+router.get("/", redirectHome, (req, res) => {
   res.render("index.pug", { loginFields, registerFields });
 });
 
+router.get("/test", (req, res) => {
+  res.render("testMsg");
+});
+router.get("/confirm", (req, res) => {
+  res.render("confirmAccount");
+});
 //authentication
 router
   .route("/login")

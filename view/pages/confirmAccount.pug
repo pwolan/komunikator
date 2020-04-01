@@ -1,0 +1,18 @@
+extends /boilerplate
+
+include /components/form
+
+block head
+    link(href='css/beer.css' rel="stylesheet")
+    link(href='css/form.css' rel="stylesheet")
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+
+block scripts
+    script(src='js/beer.js')
+
+block body
+    .beer.form-center-wrapper
+        .form-container.rounded 
+            h1.text-center.text-white.mb-3 Confirm Your email
+            p We send email to you to verify your account.
+            

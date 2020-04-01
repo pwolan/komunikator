@@ -1,6 +1,7 @@
 const User = require("../model/user");
 const { checkLogin, checkRegister, validation } = require("../middlewares/validation");
 const { loginFields, registerFields } = require("../helpers/authFields");
+const { sendMail } = require("../helpers/mails/sender.js");
 
 module.exports = {
   renderLogin(req, res) {
@@ -31,15 +32,17 @@ module.exports = {
   },
   submitRegister: [
     checkRegister,
-    (req, res) => {
+    async (req, res) => {
       //validation
       const { succes, fields } = validation(req, registerFields);
       if (!succes) {
         return res.render("register", { fields });
       }
       let data = req.body;
-      User.register(data);
-      res.redirect("/login");
+      let verify = await User.register(data);
+      sendMail(data.username, data.mail, verify);
+
+      res.render("confirmAccount");
     }
   ],
   logout(req, res) {

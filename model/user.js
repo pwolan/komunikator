@@ -5,11 +5,14 @@ module.exports = {
   async register({ mail, password, username, name, surname, birth_date, sex }) {
     try {
       const hashedPassword = await bcrypt.hash(password, 10);
+      const verify = await bcrypt.hash((Math.random() * 1000).toFixed(), 10);
       var sql =
-        "INSERT INTO users (username, password, name, surname, email, birth_date, sex) VALUES (?, ?, ?, ?, ?, ?, ?)";
-      con.query(sql, [username, hashedPassword, name, surname, mail, birth_date, sex]);
+        "INSERT INTO users (username, password, name, surname, email, birth_date, sex, verify) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+      con.query(sql, [username, hashedPassword, name, surname, mail, birth_date, sex, verify]);
+      return verify;
     } catch (error) {
       console.log(error);
+      return null;
     }
   },
   async login(username, password, callback) {

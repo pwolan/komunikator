@@ -7,6 +7,17 @@ const sassMiddleware = require("node-sass-middleware");
 const cors = require("cors");
 const { sessionStore } = require("./database/config");
 
+//socket testing
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+io.on("connection", socket => {
+  console.log("Conected!");
+  socket.on("chat message", msg => {
+    console.log(msg);
+  });
+});
+
 //template engine
 app.set("views", path.join(__dirname, "view/pages"));
 app.locals.basedir = path.join(__dirname, "view");
@@ -20,7 +31,7 @@ app.use(
   sassMiddleware({
     src: __dirname + "/public",
     dest: __dirname + "/public",
-    outputStyle: "compressed",
+    outputStyle: "compressed"
     // debug: true
   })
 );
@@ -45,4 +56,4 @@ app.use(
 app.use(require("./controller/router.js"));
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log("Listen on " + port));
+http.listen(port, () => console.log("Listen on " + port));
