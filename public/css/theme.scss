@@ -1,5 +1,6 @@
 $theme-colors: (
-  "primary": rgb(255, 140, 0)
+  "primary": rgb(255, 140, 0),
+  "secondary": rgb(91, 91, 91),
 );
 
 @import "../vendor/bootstrap/scss/bootstrap.scss";

@@ -15,20 +15,14 @@ router.get("/confirm", (req, res) => {
   res.render("confirmAccount");
 });
 //authentication
-router
-  .route("/login")
-  .all(redirectHome)
-  .get(auth.renderLogin)
-  .post(auth.submitLogin);
+router.route("/login").all(redirectHome).get(auth.renderLogin).post(auth.submitLogin);
 
-router
-  .route("/register")
-  .all(redirectHome)
-  .get(auth.renderRegister)
-  .post(auth.submitRegister);
+router.route("/register").all(redirectHome).get(auth.renderRegister).post(auth.submitRegister);
 
 router.get("/logout", redirectLogin, auth.logout);
 
 //user
 router.use("/user", redirectLogin, require("./user.controller"));
+//api
+router.use("/api", redirectLogin, require("./friends.controller"));
 module.exports = router;

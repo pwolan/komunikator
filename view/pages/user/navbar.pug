@@ -1,0 +1,22 @@
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary.h-100#cnav
+    .navbar-brand.d-lg-none#mlogo
+        img#logo(src="img/beer.png" alt="beer" width="20px" height="20px")
+        span.m-0#tit Drink Together!
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+    .collapse.navbar-collapse#navbarContent
+        ul#mainNavbar.nav.navbar-nav.nav-pills.align-items-center.w-100
+            .user-info-container.d-flex.order-md-1.mx-auto.mr-md-0
+                .user-info-avatar-container
+                    img.user-info-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
+                .text-white
+                    .user-info-username.px-2=username 
+                    a.text-white.px-2(href='/logout') logout                       
+            li.nav-item.rounded
+                a.nav-link.text-white.px-4(href='#addFriend') Add Friend
+            li.nav-item.rounded
+                a.nav-link.text-white.px-4(href='#groups') Groups
+            li.nav-item.rounded
+                a.nav-link.text-white.px-4(href='#random') Random
+            li.nav-item.rounded
+                a.nav-link.text-white.px-4(href='#settings') Settings      

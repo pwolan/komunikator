@@ -6,110 +6,35 @@ block head
     script(src="https://kit.fontawesome.com/9eef710565.js")
 
 block scripts
-    script.
-        //- let userId = '#{id}'
+    script(src="js/user/Online.js")
+    script(src="js/user/Chats.js")
+    script(src="js/user/AddFriend.js")
+    script(src="js/user/router.js")
     script(src="js/user.js")
 
 block body
     .row.no-gutters
-        .col-12.col-lg-3.align-items-center.justify-content-center.d-none.d-lg-flex.p-4
-            i.fa.fa-beer
-            span.h5.m-0 Drink together!
+        .col-12.col-lg-3.align-items-center.justify-content-center.d-none.d-lg-flex.p-4#title
+            img#logo(src="img/beer.png" alt="beer" width="25px" height="25px")
+            span.m-0#tit Drink Together!
         .col-12.col-lg-9
-            nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
-                a.navbar-brand.d-lg-none 
-                    i.fa.fa-beer
-                    span.h5.m-0 Drink together!
-                button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation")
-                    span.navbar-toggler-icon
-                .collapse.navbar-collapse#navbarContent
-                    ul.nav.navbar-nav.nav-pills.nav-justified.align-items-center
-                        .user-info-container.d-flex.order-md-1.mx-auto.ml-md-5
-                            .user-info-avatar-container
-                                img.user-info-avatar.rounded(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                            .text-white
-                                .user-info-username.px-2=username 
-                                a.text-white.px-2(href='/logout') logout                       
-                        li.nav-item.px-4.rounded
-                            a.nav-link.text-white(href='#') Add Friend
-                        li.nav-item.px-4.rounded
-                            a.nav-link.text-white(href='#') Groups
-                        li.nav-item.px-4.rounded
-                            a.nav-link.text-white(href='#') Random
-                        li.nav-item.px-4.rounded
-                            a.nav-link.text-white(href='#') Settings         
-
+            include ./user/navbar   
+        
     nav#tabsNav.nav.nav-pills.nav-justified.p-2.d-lg-none(role="tablist")
         a.nav-item.nav-link.mx-3(href="#friends" data-toggle="tab" role="tab" aria-selected="false") CHATS
         a.nav-item.nav-link.mx-3(href="#online" data-toggle="tab" role="tab" aria-selected="false") ONLINE
+       
     #tabs.tab-content.row.no-gutters
-        #friends.tab-pane.fade.p-2.col-lg-3(role="tabpanel") 
-            .friends-card.px-4.py-3(data-user="Johny Bravo")
-                .friends-card-avatar-container
-                    img.friends-card-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                    .friends-card-dot 1
-                .friends-card-content.p-3
-                    .friends-card-username.font-weight-bold Johny Bravo 
-                    .friends-card-text Hej mała, lubie placki i inne potrawy
-                    small.friends-car-time 2 a.m
-            .friends-card.px-4.py-3
-                .friends-card-avatar-container
-                    img.friends-card-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                .friends-card-content.p-3
-                    .friends-card-username.font-weight-bold Johny Bravo 
-                    .friends-card-text Hej mała, lubie placki...
-                    small.friends-car-time 2 a.m
+        include ./user/friends
                 
         #middle.col-lg-6.tab-pane
-            #startPage.show
-                h1 Witaj w mojej kuchni
-                | Przed państwem Robert Makłowicz
-            #chat.d-none
-                .mobile-chat-nav
-                    i#prev.fa.fa-arrow-left
-                    .mobile-chat-nav-container
-                        img.mobile-chat-nav-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png") 
-                    h5 Johny Bravo
-                    .mobile-chat-nav-buttons
-                        i.fa.fa-phone-alt
-                        i.fa.fa-video
-                .chat-box
-                    .chat-box-sender
-                        .chat-box-sender-container
-                            img.chat-box-sender-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                        .chat-box-sender-message
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nisi ligula, commodo eu faucibus maximus, rutrum sed dui. Nam id.
-                    .chat-box-reciver
-                        .chat-box-reciver-message
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut neque nec neque suscipit pellentesque id eu ipsum. Etiam ut.
-                    .chat-box-sender
-                        .chat-box-sender-container
-                            img.chat-box-sender-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                        .chat-box-sender-message
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nisi ligula, commodo eu faucibus maximus, rutrum sed dui. Nam id.
-                    .chat-box-reciver
-                        .chat-box-reciver-message
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut neque nec neque suscipit pellentesque id eu ipsum. Etiam ut.
-                form.message-send
-                    textarea(placeholder="Write here..." rows="1").message-send-sender
-                    input(type="submit" value="Send").message-send-button
+            include ./user/chat
+            include ./user/addFriend
+            include ./user/groups
+            include ./user/random
+            include ./user/settings
 
-
-        #online.tab-pane.fade.col-lg-3(role="tabpanel") 
-            .friends-card.px-4.py-3
-                .friends-card-avatar-container
-                    img.friends-card-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                .friends-card-content.p-3
-                    .friends-card-username.font-weight-bold Johny Bravo 
-                    .friends-card-text Online
-                .friends-card-statusdot 
-                    .friends-card-statusdot-body
-            .friends-card.px-4.py-3
-                .friends-card-avatar-container
-                    img.friends-card-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-                .friends-card-content.p-3
-                    .friends-card-username.font-weight-bold Fred Flinstone 
-                    .friends-card-text Offline
+        include ./user/online
 
            
         

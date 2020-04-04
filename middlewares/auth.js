@@ -12,5 +12,6 @@ module.exports = {
     } else {
       next();
     }
-  }
+  },
+
 };
