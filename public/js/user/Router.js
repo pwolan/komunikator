@@ -1,11 +1,13 @@
-import Chats from "./Chats";
+import io from "socket.io-client";
+
 class Router {
-  constructor(user) {
+  constructor(user, chat) {
     this.root = $("#middle");
     this.navbar = $("#mainNavbar");
-    this.nowChat = null;
+    this.chat = chat;
     this.user = user;
   }
+
   render() {
     this.show("#random");
     let that = this;
@@ -71,8 +73,9 @@ class Router {
       $("#tabsNav").addClass("d-none");
     }
     let friendId = $(that)[0].dataset.id;
-    if (this.nowChat) this.nowChat.stop();
-    this.nowChat = new Chats(this.user, friendId);
+    this.chat.changeFriend(friendId);
+    // if (this.chat) this.chat.stop();
+    // this.chat = new Chats(this.user, friendId);
   }
   addFriend() {}
   groups() {}

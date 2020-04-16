@@ -9,3 +9,8 @@ module.exports = {
     filename: "[name].bundle.js",
   },
 };
+
+// const fs = require('fs')
+// function getEntryPoints(){
+//   let files = fs.readDirSync('./public/js')
+// }

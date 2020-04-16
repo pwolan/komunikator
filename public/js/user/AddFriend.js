@@ -29,13 +29,24 @@ export default class AddFriend {
   renderSearchFriends(users) {
     $("#searchOutput").empty();
     users.forEach(({ username, idusers }) => {
-      let li = $("<li>").addClass("searchFriend").text(username).attr("data-id", idusers);
+      let li = $("<li>").addClass("searchFriend");
+      let img = $("<img>")
+        .attr(
+          "src",
+          "http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png"
+        )
+        .attr("id", "searchAvatar");
+      let name = $("<p>").attr("id", "searchUser").text(username);
+      let btn = $("<button>").attr("id", "searchButton").attr("data-id", idusers).text("Add");
+      li.append(img, name, btn);
       $("#searchOutput").append(li);
     });
-    $(".searchFriend").off("click");
+    $("#searchButton").off("click");
     let that = this;
-    $(".searchFriend").on("click", function () {
+    $("#searchButton").on("click", function () {
       let id = this.dataset.id;
+      $(this).parent().remove();
+      console.log(id);
       that.addFriend(id);
     });
   }

@@ -25,7 +25,7 @@ var server = http.createServer(app);
  * Socket.IO initialization
  */
 const io = require("socket.io")(server);
-const { initSocket } = require("../controller/socket.controller.js");
+const { initSocket } = require("../controller/chat.controller");
 initSocket(io);
 
 /**
