@@ -1,12 +1,15 @@
 class Router {
-  constructor() {
+  constructor(user) {
     this.root = $("#middle");
     this.navbar = $("#mainNavbar");
+    this.nowChat = null;
+    this.user = user;
   }
   render() {
     this.show("#random");
-    $(".friends-card").on("click", (e) => {
-      this.messageBox();
+    let that = this;
+    $(".friends-card").on("click", function (e) {
+      that.messageBox(this);
     });
 
     this.navbarListeners();
@@ -56,7 +59,7 @@ class Router {
       $("#tabsNav a").eq(0).tab("show");
     }
   }
-  messageBox() {
+  messageBox(that) {
     $("#middle>div").addClass("d-none");
     $("#chat").removeClass("d-none");
     if ($(document).width() < 992) {
@@ -66,6 +69,9 @@ class Router {
       //handle nav
       $("#tabsNav").addClass("d-none");
     }
+    let friendId = $(that)[0].dataset.id;
+    if (this.nowChat) this.nowChat.stop();
+    this.nowChat = new Chats(this.user, friendId);
   }
   addFriend() {}
   groups() {}
