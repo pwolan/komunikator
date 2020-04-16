@@ -1,4 +1,4 @@
-class Online {
+export default class Online {
   constructor(user) {
     this.user = user;
     this.render();

@@ -1,20 +1,14 @@
 {
-  "name": "drinkit",
-  "version": "0.0.1",
-  "description": "",
-  "main": "server.js",
-  "engines": {
-    "node": "10.16.0",
-    "npm": "6.9.0"
-  },
+  "name": "express-webpack-template",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "nodemon server.js",
-    "heroku-postbuild": "npm install --production",
-    "start": "node server.js"
+    "start": "node ./bin/www",
+    "start:dev": "nodemon ./bin/www",
+    "build": "webpack --config webpack.config.js",
+    "build:dev": "webpack --config webpack.config.js -w",
+    "dev": "npm run start:dev && npm run build:dev "
   },
-  "keywords": [],
-  "author": "Piotr Wolanin & Florian Ficek",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^4.0.1",
     "connect-mysql": "^2.2.5",
@@ -33,9 +27,14 @@
     "nodemailer": "^6.4.6",
     "pug": "^2.0.4",
     "socket.io": "^2.3.0",
-    "util": "^0.12.2"
+    "util": "^0.12.2",
+    "morgan": "~1.9.1",
+    "debug": "~2.6.9",
+    "http-errors": "~1.6.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }

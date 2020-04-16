@@ -1,4 +1,4 @@
-class AddFriend {
+export default class AddFriend {
   constructor(user) {
     this.render();
     this.user = user;
