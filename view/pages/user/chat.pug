@@ -3,7 +3,7 @@
         i#prev.fa.fa-arrow-left.d-lg-none
         .chat-nav-container
             img.chat-nav-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png") 
-        h5 Johny Bravo
+        h5#friendName Johny Bravo
         .chat-nav-buttons
             i.fa.fa-phone-alt
             i.fa.fa-video
@@ -24,6 +24,6 @@
         .chat-box-reciver
             .chat-box-reciver-message
                 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut neque nec neque suscipit pellentesque id eu ipsum. Etiam ut.
-    form.message-send
-        textarea(placeholder="Write here..." rows="1").message-send-sender
+    form#messageSender.message-send
+        textarea(placeholder="Write here..." name="text" rows="1").message-send-sender
         input(type="submit" value="Send").message-send-button

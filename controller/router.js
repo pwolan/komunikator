@@ -24,5 +24,5 @@ router.get("/logout", redirectLogin, auth.logout);
 //user
 router.use("/user", redirectLogin, require("./user.controller"));
 //api
-router.use("/api", redirectLogin, require("./friends.controller"));
+router.use("/friends", redirectLogin, require("./friends.controller"));
 module.exports = router;

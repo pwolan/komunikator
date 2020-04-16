@@ -6,18 +6,15 @@ const session = require("express-session");
 const sassMiddleware = require("node-sass-middleware");
 const cors = require("cors");
 const { sessionStore } = require("./database/config");
+const helmet = require("helmet");
 
 //socket testing
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const { initSocket } = require("./controller/chat.controller");
+initSocket(io);
 
-io.on("connection", socket => {
-  console.log("Conected!");
-  socket.on("chat message", msg => {
-    console.log(msg);
-  });
-});
-
+app.use(helmet());
 //template engine
 app.set("views", path.join(__dirname, "view/pages"));
 app.locals.basedir = path.join(__dirname, "view");
@@ -31,7 +28,7 @@ app.use(
   sassMiddleware({
     src: __dirname + "/public",
     dest: __dirname + "/public",
-    outputStyle: "compressed"
+    outputStyle: "compressed",
     // debug: true
   })
 );
@@ -47,8 +44,8 @@ app.use(
     resave: true,
     saveUninitialized: false,
     cookie: {
-      expires: 60000000
-    }
+      expires: 60000000,
+    },
   })
 );
 

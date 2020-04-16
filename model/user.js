@@ -39,19 +39,19 @@ module.exports = {
         delete result[0].password;
         return {
           succes: true,
-          user: result
+          user: result,
         };
       } else {
         return {
           succes: false,
-          user: result
+          user: result,
         };
       }
     } catch (err) {
       console.log("Lost connection or invalid password");
       return {
         succes: false,
-        user: null
+        user: null,
       };
     }
   },
@@ -67,5 +67,15 @@ module.exports = {
       console.log(error);
       return false;
     }
-  }
+  },
+  async get(iduser) {
+    var sql = "SELECT * FROM users WHERE users.idusers = ?";
+    try {
+      const result = await con.query(sql, iduser);
+      return result;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
 };

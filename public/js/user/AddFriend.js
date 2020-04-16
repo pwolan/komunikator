@@ -9,18 +9,22 @@ class AddFriend {
     });
   }
   async handleSearch(val) {
-    let res = await fetch("/api/searchFriend", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: val,
-        userId: this.user.idusers,
-      }),
-    });
-    let data = await res.json();
-    this.renderSearchFriends(data.users);
+    if (val.length > 2) {
+      let res = await fetch("/friends/searchFriend", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: val,
+          userId: this.user.idusers,
+        }),
+      });
+      let data = await res.json();
+      this.renderSearchFriends(data.users);
+    } else {
+      $("#searchOutput").empty();
+    }
   }
   renderSearchFriends(users) {
     $("#searchOutput").empty();
@@ -36,7 +40,7 @@ class AddFriend {
     });
   }
   async addFriend(id) {
-    let res = await fetch("/api/addFriend", {
+    let res = await fetch("/friends/addFriend", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
