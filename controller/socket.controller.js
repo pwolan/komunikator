@@ -1,4 +1,5 @@
 exports.initSocket = (io) => {
+  console.log("socket leci");
   io.on("connection", (socket) => {
     console.log("Conected!");
     console.log(socket.id);

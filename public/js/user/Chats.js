@@ -1,4 +1,5 @@
-class Chats {
+import io from "socket.io-client";
+export default class Chats {
   constructor(user, friendId) {
     this.user = user;
     this.friend;

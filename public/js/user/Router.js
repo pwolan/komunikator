@@ -1,3 +1,4 @@
+import Chats from "./Chats";
 class Router {
   constructor(user) {
     this.root = $("#middle");
@@ -91,3 +92,4 @@ class Router {
     }
   }
 }
+export default Router;
