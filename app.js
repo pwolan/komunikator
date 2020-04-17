@@ -8,7 +8,7 @@ const session = require("express-session");
 const sassMiddleware = require("node-sass-middleware");
 const cors = require("cors");
 const { sessionStore } = require("./database/config");
-
+var favicon = require("serve-favicon");
 
 var app = express();
 
@@ -36,21 +36,19 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cookieParser());
-app.use(
-  session({
-    store: sessionStore,
-    key: "session_sid",
-    secret: "secret",
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-      expires: 60000000,
-    },
-  })
-);
+let mainSession = session({
+  store: sessionStore,
+  key: "session_sid",
+  secret: "secret",
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    expires: 60000000,
+  },
+});
+app.use(mainSession);
 
-// app.use("/", indexRouter);
-// app.use("/users", usersRouter);
+app.use("/favicon.ico", express.static(path.join(__dirname + "images/favicon.ico")));
 app.use(require("./controller/router.js"));
 
 // catch 404 and forward to error handler
@@ -60,6 +58,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
+  console.log(err);
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -69,4 +68,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+module.exports = { app, mainSession };

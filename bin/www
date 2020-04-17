@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require("../app");
+var { app, mainSession } = require("../app");
 var debug = require("debug")("express-webpack-template:server");
 var http = require("http");
 
@@ -24,7 +24,14 @@ var server = http.createServer(app);
 /**
  * Socket.IO initialization
  */
-const io = require("socket.io")(server);
+var sharedsession = require("express-socket.io-session");
+const io = require("socket.io")(server, {
+  reconnection: true,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+  reconnectionAttempts: Infinity,
+});
+io.use(sharedsession(mainSession));
 const { initSocket } = require("../controller/chat.controller");
 initSocket(io);
 

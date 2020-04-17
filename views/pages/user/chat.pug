@@ -8,22 +8,6 @@
             i.fa.fa-phone-alt
             i.fa.fa-video
     .chat-box
-        .chat-box-sender
-            .chat-box-sender-container
-                img.chat-box-sender-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-            .chat-box-sender-message
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nisi ligula, commodo eu faucibus maximus, rutrum sed dui. Nam id.
-        .chat-box-reciver
-            .chat-box-reciver-message
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut neque nec neque suscipit pellentesque id eu ipsum. Etiam ut.
-        .chat-box-sender
-            .chat-box-sender-container
-                img.chat-box-sender-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-            .chat-box-sender-message
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. In nisi ligula, commodo eu faucibus maximus, rutrum sed dui. Nam id.
-        .chat-box-reciver
-            .chat-box-reciver-message
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut neque nec neque suscipit pellentesque id eu ipsum. Etiam ut.
     form#messageSender.message-send
-        textarea(placeholder="Write here..." name="text" rows="1").message-send-sender
-        input(type="submit" value="Send").message-send-button
+        textarea.message-send-sender(placeholder="Write here..." name="text" rows="1")
+        input.message-send-button(type="button" value="Send")

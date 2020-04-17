@@ -26,5 +26,5 @@ router.use("/user", redirectLogin, require("./user.controller"));
 //api
 router.use("/friends", redirectLogin, require("./friends.controller"));
 //chats
-// router.use("/chats", redirectLogin, require("./chat.controller"));
+router.use("/chat", redirectLogin, require("./chat.controller").Router);
 module.exports = router;
