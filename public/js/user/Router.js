@@ -74,8 +74,6 @@ class Router {
     }
     let friendId = $(that)[0].dataset.id;
     this.chat.changeFriend(friendId);
-    // if (this.chat) this.chat.stop();
-    // this.chat = new Chats(this.user, friendId);
   }
   addFriend() {}
   groups() {}
