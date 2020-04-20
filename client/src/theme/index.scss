@@ -2,4 +2,8 @@ $theme-colors: (
   "primary": rgb(255, 140, 0),
   "secondary": rgb(91, 91, 91),
 );
+
 @import "~bootstrap/scss/bootstrap";
+body {
+  font-family: "Lato", sans-serif !important;
+}

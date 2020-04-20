@@ -3,8 +3,14 @@ import RootTemplate from "templates/RootTemplate";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 // import Start from "./Start";
 import MainTemplate from "templates/MainTemplate";
-import AddUser from "./AddUser";
+import AddUser from "./AddFriend";
 import MediaQuery from "react-responsive";
+import Random from "./Random";
+import Groups from "./Groups";
+import Settings from "./Settings";
+import Chats from "./Chats";
+import Online from "./Online";
+import ChatRoom from "./ChatRoom";
 
 const App = () => {
   return (
@@ -14,15 +20,21 @@ const App = () => {
           <Switch>
             {/* <Route exact path="/test" component={Start} /> */}
             <Route exact path="/" render={() => <Redirect to="/addUser" />} />
-            <Route path="/adduser" component={AddUser} />
 
-            {/* <Route path="/chats/:roomId" component={ChatRoom}/> */}
-            <MediaQuery maxWidth="600px">
-              {/* <Route path="/chats" component={Chats}> */}
+            <Route path="/addfriend" component={AddUser} />
+            <Route path="/groups" component={Groups} />
+            <Route path="/random" component={Random} />
+            <Route path="/settings" component={Settings} />
+            <Route path="/chats" component={Chats} />
+            <Route path="/online" component={Online} />
+
+            <Route path="/chats/:roomId" component={ChatRoom}/>
+           {/* <MediaQuery maxWidth="600px">
+              <Route path="/chats" component={Chats}>
             </MediaQuery>
             <MediaQuery minWidth="601px">
               <Route path="/chats" render={() => <Redirect to="/addUser" />} />
-            </MediaQuery>
+            </MediaQuery> */}
           </Switch>
         </MainTemplate>
       </RootTemplate>

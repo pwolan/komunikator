@@ -4,6 +4,7 @@ const router = require("express").Router();
 exports.initSocket = (io) => {
   console.log("Connected!");
   io.on("connection", (socket) => {
+    socket.emit("test", { d: "testdata" });
     let { session } = socket.handshake;
     // socket.on("adduser", (username, id) => {
     //   // socket.username = username;
@@ -25,8 +26,10 @@ exports.initSocket = (io) => {
         await Chat.send(room, idusers, msg);
         io.to(room).emit("updatechat", idusers, msg);
       } catch (err) {
-        console.log(err);
-        socket.emit("updatechat", { idusers, username }, "Failed to write message!");
+        // console.log(err);
+        // socket.emit("updatechat", { idusers, username }, "Failed to write message!");
+        console.log('updatechat');
+        socket.emit("updatechat", "aaa")
       }
     });
   });

@@ -2,15 +2,15 @@ import React from "react";
 import MediaQuery from "react-responsive";
 import MobileTemplate from "./MobileTemplate";
 import DesktopTemplate from "./DesktopTemplate";
+import { theme } from "theme/theme";
 
 const MainTemplate = ({ children }) => {
   return (
     <>
-      <h1>Main Template</h1>
-      <MediaQuery maxWidth="600px">
+      <MediaQuery maxWidth={theme.media.medium}>
         <MobileTemplate>{children}</MobileTemplate>
       </MediaQuery>
-      <MediaQuery minWidth="601px">
+      <MediaQuery minWidth={theme.media.medium + 1}>
         <DesktopTemplate>{children}</DesktopTemplate>
       </MediaQuery>
     </>
