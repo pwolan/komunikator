@@ -1,15 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import withContext from "context/withContext";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   background: ${({ theme }) => theme.color.gray.online};
   padding: 5px 10px;
+
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.color.gray.medium};
+    text-decoration: none;
   }
 `;
 
@@ -47,20 +51,26 @@ const Dot = styled.div`
 const Username = styled.div`
   font-weight: bold;
   font-size: 18px;
+  color: white;
 `;
 const Status = styled.div`
   font-size: 14px;
+  color: white;
 `;
 
-const OnlineCard = ({ username, src, alt }) => {
+const OnlineCard = ({ username, src, alt, userContext, id }) => {
+  const user = userContext.user || {};
+  const { idusers } = user;
+
+  let roomId = id < idusers ? `${id}#${idusers}` : `${idusers}#${id}`;
   return (
-    <Container>
+    <Container as={Link} to={`/chats/${roomId}`}>
       <AvatarContainer>
         <Avatar src={src} alt={alt} />
       </AvatarContainer>
       <Content>
         <Username>{username}</Username>
-        <Status>Offline</Status>
+        <Status>Online</Status>
       </Content>
       <DotContainer>
         <Dot></Dot>
@@ -73,6 +83,7 @@ OnlineCard.propTypes = {
   username: PropTypes.string.isRequired,
   src: PropTypes.string,
   alt: PropTypes.string,
+  id: PropTypes.number.isRequired,
 };
 
 OnlineCard.defaultProps = {
@@ -80,7 +91,7 @@ OnlineCard.defaultProps = {
   alt: "avatar",
 };
 
-export default OnlineCard;
+export default withContext(OnlineCard);
 
 //.friends-card.px-4.py-3(data-id=friend.idusers)
 //             .friends-card-avatar-container

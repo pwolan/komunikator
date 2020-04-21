@@ -13,6 +13,7 @@ import Chats from "./Chats";
 import Online from "./Online";
 import ChatRoom from "./ChatRoom";
 import { theme } from "theme/theme";
+import MobilePlus from "./MobilePlus";
 
 const App = () => {
   const isDesktop = useMediaQuery({ minWidth: parseInt(theme.media.large) });
@@ -29,12 +30,14 @@ const App = () => {
               <Route path="/chats/:roomId" component={ChatRoom} />
               {isDesktop ? (
                 <>
+                  <Route path="/plus" render={() => <Redirect to="/addfriend" />} />
                   <Route exact path="/" render={() => <Redirect to="/random" />} />
                   <Route path="/chats" render={() => <Redirect to="/random" />} />
                   <Route path="/online" render={() => <Redirect to="/random" />} />
                 </>
               ) : (
                 <>
+                  <Route path="/plus" component={MobilePlus} />
                   <Route exact path="/" render={() => <Redirect to="/chats" />} />
                   <Route path="/chats" component={Chats} />
                   <Route path="/online" component={Online} />

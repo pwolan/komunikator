@@ -1,9 +1,7 @@
 import React from "react";
 import FriendCard from "components/medium/FriendCard";
 import styled from "styled-components";
-const Wrap = styled.div`
-  overflow: auto;
-`;
+
 const Container = styled.div`
   overflow: auto;
   flex-grow: 1;

@@ -26,7 +26,7 @@ const MobileNavbar = () => {
         <MobileNavLink to="/chats" icon={faCommentDots}></MobileNavLink>
         <MobileNavLink to="/online" icon={faUserCircle}></MobileNavLink>
         <MobileNavLink to="/random" icon={faQuestionCircle}></MobileNavLink>
-        <MobileNavLink to="/addfriend" icon={faPlusCircle}></MobileNavLink>
+        <MobileNavLink to="/plus" icon={faPlusCircle}></MobileNavLink>
         <MobileNavLink to="/settings" icon={faCog}></MobileNavLink>
       </StyledUl>
     </nav>
