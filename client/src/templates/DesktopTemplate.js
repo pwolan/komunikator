@@ -4,7 +4,7 @@ import Chats from "views/Chats";
 import Online from "views/Online";
 import Logo from "components/small/Logo";
 import NavBar from "components/large/Navbar";
-import UserStats from "components/small/UserStats";
+import UserStats from "components/medium/UserStats";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 25% 50% 25%;

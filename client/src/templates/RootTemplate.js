@@ -1,8 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { theme } from "theme/theme";
-import { withRouter } from "react-router-dom";
-//import PageContext from 'context
+import UserProvider from "context/user";
 
 class RootTemplate extends React.Component {
   render() {
@@ -10,7 +9,9 @@ class RootTemplate extends React.Component {
     return (
       <div>
         {/* <PageContext.Provider value={val}></PageContext.Provider> */}
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <UserProvider>
+          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </UserProvider>
       </div>
     );
   }
