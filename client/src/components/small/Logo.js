@@ -10,7 +10,7 @@ const StyledContainer = styled.div`
   background-color: ${({ theme }) => theme.color.primary};
   @media (min-width: ${({ theme }) => theme.media.large}) {
     color: white;
-    background: rgb(206, 113, 0);
+    background: ${({ theme }) => theme.color.logo};
     height: 80px;
   }
 `;
@@ -22,12 +22,12 @@ const StyledSpan = styled.span`
   margin: 0;
   color: white;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 25px;
   padding-left: 5px;
 
   @media (min-width: ${({ theme }) => theme.media.large}) {
     font-weight: 900;
-    font-size: 23px;
+    font-size: 26px;
     padding-left: 5px;
   }
 `;

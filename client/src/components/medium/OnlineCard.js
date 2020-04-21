@@ -1,36 +1,83 @@
 import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
-const OnlineCard = ({ status, username }) => {
-  let content;
-  if (status === 0) {
-    content = (
-      <div>
-        <div>{username}</div>
-        <button>accept</button>
-        <button>decline</button>
-      </div>
-    );
-  } else if (status === 1) {
-    content = (
-      <>
-        <div>
-          <div>{username}</div>
-          <div>Offline</div>
-        </div>
-        <div>
-          <div></div>
-        </div>
-      </>
-    );
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  background: ${({ theme }) => theme.color.gray.online};
+  padding: 5px 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: ${({ theme }) => theme.color.gray.medium};
   }
+`;
+
+const AvatarContainer = styled.div`
+  flex-shrink: 0;
+  height: 80px;
+  width: 80px;
+  position: relative;
+`;
+const Avatar = styled.img`
+  height: 80%;
+  width: 80%;
+  border-radius: 100%;
+  background: white;
+  object-fit: cover;
+  margin: 10% 0;
+  display: block;
+`;
+const Content = styled.div`
+  flex-grow: 1;
+  overflow: hidden;
+`;
+const DotContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const Dot = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: green;
+  padding-right: 10px;
+`;
+const Username = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+`;
+const Status = styled.div`
+  font-size: 14px;
+`;
+
+const OnlineCard = ({ username, src, alt }) => {
   return (
-    <div>
-      <div>
-        <img src="" alt="" />
-      </div>
-      {content}
-    </div>
+    <Container>
+      <AvatarContainer>
+        <Avatar src={src} alt={alt} />
+      </AvatarContainer>
+      <Content>
+        <Username>{username}</Username>
+        <Status>Offline</Status>
+      </Content>
+      <DotContainer>
+        <Dot></Dot>
+      </DotContainer>
+    </Container>
   );
+};
+
+OnlineCard.propTypes = {
+  username: PropTypes.string.isRequired,
+  src: PropTypes.string,
+  alt: PropTypes.string,
+};
+
+OnlineCard.defaultProps = {
+  src: "/avatars/default.png",
+  alt: "avatar",
 };
 
 export default OnlineCard;

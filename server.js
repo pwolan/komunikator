@@ -61,7 +61,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE_ENV) {
   let isDev = process.env.NODE_ENV.trim() === "development";
-  console.log(!isDev);
   if (!isDev) {
     app.use(express.static(path.join(__dirname, "client/build")));
   }

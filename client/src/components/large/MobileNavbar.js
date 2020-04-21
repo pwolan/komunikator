@@ -16,7 +16,7 @@ const StyledUl = styled.ul`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: rgb(255, 140, 0);
+  background: ${({ theme }) => theme.color.primary};
   height: 62px;
 `;
 const MobileNavbar = () => {

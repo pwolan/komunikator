@@ -52,7 +52,6 @@ header {
 //   filter: invert(100%);
 // }
 
-
 .friends-title {
   display: none;
 }
@@ -116,23 +115,23 @@ header {
 }
 
 .friends-card {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+  // display: flex;
+  // align-items: center;
+  // cursor: pointer;
   &-avatar-container {
-    height: 80px;
-    position: relative;
+    // height: 80px;
+    // position: relative;
   }
   &-avatar {
-    height: 100%;
-    border-radius: 100%;
-    background: white;
+    // height: 100%;
+    // border-radius: 100%;
+    // background: white;
   }
   &-text {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 100%;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
+    // width: 100%;
   }
   #online &-username {
     @media (min-width: 992px) {

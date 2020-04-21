@@ -1,11 +1,43 @@
 import React from "react";
 import OnlineCard from "components/medium/OnlineCard";
-
+import styled from "styled-components";
+const Container = styled.div`
+  height: 100%;
+  background-color: ${({ theme }) => theme.color.gray.online};
+  overflow: auto;
+`;
 const Online = () => {
   return (
-    <>
-      <OnlineCard />
-    </>
+    <Container>
+      <OnlineCard username="Johny z Oklahomy" />
+      <OnlineCard username="Łebol" src="/avatars/lebol.png" alt="łeb" />
+      <OnlineCard
+        username="Andrzej Duda"
+        src="https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/85115456_3320554797961404_738540031936823296_n.jpg?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=yTA8yPFVxtgAX_wI-9h&_nc_ht=scontent.fktw1-1.fna&oh=b6ec0380f05c4b04f9cfb5760a51ae00&oe=5EC30CB3"
+        alt="duda"
+      />
+      <OnlineCard username="Johny z Oklahomy" />
+      <OnlineCard username="Łebol" src="/avatars/lebol.png" alt="łeb" />
+      <OnlineCard
+        username="Andrzej Duda"
+        src="https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/85115456_3320554797961404_738540031936823296_n.jpg?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=yTA8yPFVxtgAX_wI-9h&_nc_ht=scontent.fktw1-1.fna&oh=b6ec0380f05c4b04f9cfb5760a51ae00&oe=5EC30CB3"
+        alt="duda"
+      />
+      <OnlineCard username="Johny z Oklahomy" />
+      <OnlineCard username="Łebol" src="/avatars/lebol.png" alt="łeb" />
+      <OnlineCard
+        username="Andrzej Duda"
+        src="https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/85115456_3320554797961404_738540031936823296_n.jpg?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=yTA8yPFVxtgAX_wI-9h&_nc_ht=scontent.fktw1-1.fna&oh=b6ec0380f05c4b04f9cfb5760a51ae00&oe=5EC30CB3"
+        alt="duda"
+      />
+      <OnlineCard username="Johny z Oklahomy" />
+      <OnlineCard username="Łebol" src="/avatars/lebol.png" alt="łeb" />
+      <OnlineCard
+        username="Andrzej Duda"
+        src="https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/85115456_3320554797961404_738540031936823296_n.jpg?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=yTA8yPFVxtgAX_wI-9h&_nc_ht=scontent.fktw1-1.fna&oh=b6ec0380f05c4b04f9cfb5760a51ae00&oe=5EC30CB3"
+        alt="duda"
+      />
+    </Container>
   );
 };
 

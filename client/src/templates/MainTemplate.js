@@ -1,18 +1,21 @@
 import React from "react";
-import MediaQuery from "react-responsive";
+import { Mobile, Tablet, Desktop } from "theme/Breakpoints";
 import MobileTemplate from "./MobileTemplate";
 import DesktopTemplate from "./DesktopTemplate";
-import { theme } from "theme/theme";
+// import TabletTemplate from "./TabletTemplate";
 
 const MainTemplate = ({ children }) => {
   return (
     <>
-      <MediaQuery maxWidth={theme.media.medium}>
+      <Mobile>
         <MobileTemplate>{children}</MobileTemplate>
-      </MediaQuery>
-      <MediaQuery minWidth={theme.media.medium + 1}>
+      </Mobile>
+      <Tablet>
+        <MobileTemplate>{children}</MobileTemplate>
+      </Tablet>
+      <Desktop>
         <DesktopTemplate>{children}</DesktopTemplate>
-      </MediaQuery>
+      </Desktop>
     </>
   );
 };

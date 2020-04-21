@@ -1,22 +1,21 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 const FriendCardContainer = styled.div`
   display: flex;
   align-items: center;
-  background: rgb(243, 243, 243);
-  padding: 5px 0;
+  background: ${({ theme }) => theme.color.gray.lighter};
+  padding: 5px 10px;
   cursor: pointer;
   ${({ newMess }) =>
     newMess &&
     css`
-      background: rgb(244, 224, 198);
+      background: ${({ theme }) => theme.color.secondary};
       font-weight: 600;
     `}
   &:hover {
-    background: rgb(230, 230, 230);
+    background: ${({ theme }) => theme.color.gray.light};
   }
 `;
 const AvatarContainer = styled.div`
@@ -31,7 +30,7 @@ const Avatar = styled.img`
   border-radius: 100%;
   background: white;
   object-fit: cover;
-  margin: 10% 10px;
+  margin: 10% 0;
   display: block;
 `;
 const FriendContent = styled.div`
@@ -53,16 +52,17 @@ const FriendText = styled.div`
   overflow: hidden;
   width: 100%;
   font-size: 14px;
+  padding-right: 15px;
 `;
 const FriendTime = styled.div`
   font-size: 11px;
 `;
 
-const FriendCard = ({ avatarSrc, notify, username, lastMsg, time }) => {
+const FriendCard = ({ avatarSrc, notify, username, lastMsg, time, alt }) => {
   return (
     <FriendCardContainer newMess={notify}>
       <AvatarContainer>
-        <Avatar src={avatarSrc} alt="" />
+        <Avatar src={avatarSrc} alt={alt} />
       </AvatarContainer>
       <FriendContent>
         <FriendName newMess={notify}>{username}</FriendName>
@@ -75,19 +75,20 @@ const FriendCard = ({ avatarSrc, notify, username, lastMsg, time }) => {
 
 FriendCard.propTypes = {
   avatarSrc: PropTypes.string,
+  notify: PropTypes.bool,
+  username: PropTypes.string.isRequired,
+  lastMsg: PropTypes.string,
+  time: PropTypes.string,
+  alt: PropTypes.string,
 };
 
 FriendCard.defaultProps = {
   avatarSrc: "/avatars/default.png",
+  notify: false,
+  lastMsg: "",
+  time: "",
+  alt: "",
 };
 
 export default FriendCard;
-//avatarSrc, username, lastMsg, time
-//     .friends-card.px-4.py-3.message(data-user="Johny Bravo")
-//         .friends-card-avatar-container
-//             img.friends-card-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-//             .friends-card-dot 1
-//         .friends-card-content.p-3
-//             .friends-card-username.font-weight-bold Johny Bravo
-//             .friends-card-text Hej mała, lubie placki i inne potrawy
-//             small.friends-car-time 2 a.m
+//130,128,128
