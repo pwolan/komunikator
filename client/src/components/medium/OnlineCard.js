@@ -7,13 +7,16 @@ import withContext from "context/withContext";
 const Container = styled.div`
   display: flex;
   align-items: center;
-  background: ${({ theme }) => theme.color.gray.online};
+  background: ${({ theme }) => theme.color.gray.lighter};
   padding: 5px 10px;
 
   cursor: pointer;
   &:hover {
     background-color: ${({ theme }) => theme.color.gray.medium};
     text-decoration: none;
+  }
+  @media (min-width: ${({ theme }) => theme.media.large}) {
+    background-color: ${({ theme }) => theme.color.gray.online};
   }
 `;
 
@@ -35,6 +38,10 @@ const Avatar = styled.img`
 const Content = styled.div`
   flex-grow: 1;
   overflow: hidden;
+  color: black;
+  @media (min-width: ${({ theme }) => theme.media.large}) {
+    color: white;
+  }
 `;
 const DotContainer = styled.div`
   display: flex;
@@ -51,11 +58,9 @@ const Dot = styled.div`
 const Username = styled.div`
   font-weight: bold;
   font-size: 18px;
-  color: white;
 `;
 const Status = styled.div`
   font-size: 14px;
-  color: white;
 `;
 
 const OnlineCard = ({ username, src, alt, userContext, id }) => {

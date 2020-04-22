@@ -1,10 +1,14 @@
 import { INCREMENT, ONLINE_FETCH_SUCCES } from "actions";
 
 const initialState = {
-  counter: 0,
-  chats: [],
-  chatsCount: 0,
   onlineUsers: [],
+
+  //chatRoom
+  messages: [],
+  messagesCount: 0,
+  roomId: null,
+
+  counter: 0,
 };
 
 const rootReducer = (state = initialState, action) => {

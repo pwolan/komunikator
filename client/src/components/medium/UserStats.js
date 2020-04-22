@@ -48,7 +48,7 @@ const UserStats = ({ userContext, number, increment }) => {
       </AvatarContainer>
       <Content>
         <Username>{username}</Username>
-        <Logout href="localhost:3000/logout">Logout</Logout>
+        <Logout href="//localhost:3000/logout">Logout</Logout>
       </Content>
     </Container>
   );

@@ -6,8 +6,11 @@ import { fetchOnlineUsers } from "actions";
 
 const Container = styled.div`
   height: 100%;
-  background-color: ${({ theme }) => theme.color.gray.online};
+  background-color: ${({ theme }) => theme.color.gray.lighter};
   overflow: auto;
+  @media (min-width: ${({ theme }) => theme.media.large}) {
+    background-color: ${({ theme }) => theme.color.gray.online};
+  }
 `;
 class Online extends React.Component {
   componentDidMount() {

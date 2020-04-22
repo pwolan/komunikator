@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <NavBar>
       <StyledUl>
-        <NavLink to="/addfriend" children="Add Friend"></NavLink>
+        <NavLink to="/addfriend" children="Add Friends"></NavLink>
         <NavLink to="/groups" children="Groups"></NavLink>
         <NavLink to="/random" children="Random"></NavLink>
         <NavLink to="/settings" children="Settings"></NavLink>

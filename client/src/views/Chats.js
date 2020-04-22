@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Container = styled.div`
   overflow: auto;
   flex-grow: 1;
-  background-color: rgb(243, 243, 243);
+  background-color: ${({ theme }) => theme.color.gray.lighter};
 `;
 
 const Chats = () => {

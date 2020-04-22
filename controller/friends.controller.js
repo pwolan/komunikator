@@ -17,9 +17,10 @@ router.get("/userStats/:id", async (req, res) => {
   });
 });
 router.post("/searchFriend", async (req, res) => {
-  const { text, userId } = req.body;
+  const { text } = req.body;
   console.log(req.body);
-  const users = await Friend.find(text, userId);
+  let { idusers } = req.session.user;
+  const users = await Friend.find(text, idusers);
   console.log(users);
   res.json({
     users,
@@ -27,9 +28,9 @@ router.post("/searchFriend", async (req, res) => {
 });
 
 router.post("/addFriend", async (req, res) => {
-  const { newFriendId, userId } = req.body;
-  let succes = await Friend.add(userId, parseInt(newFriendId));
-  console.log(succes);
+  const { friendId } = req.body;
+  let { idusers } = req.session.user;
+  let succes = await Friend.add(idusers, parseInt(friendId));
   res.json({
     succes,
   });

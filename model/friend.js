@@ -19,7 +19,7 @@ module.exports = {
     WHERE users.idusers=?)
     AND users.idusers!=? 
     AND users.username LIKE ?
-    LIMIT 10`;
+    LIMIT 20`;
     try {
       const result = await con.query(sql, [iduser, iduser, iduser, search]);
       return result;
