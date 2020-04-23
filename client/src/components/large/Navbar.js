@@ -4,7 +4,7 @@ import NavLink from "components/small/NavLink";
 
 const NavBar = styled.div`
   height: 80px;
-  background: rgb(91, 91, 91);
+  background: ${({ theme }) => theme.color.gray.darker};
   display: flex;
   justify-content: space-around;
   align-items: center;

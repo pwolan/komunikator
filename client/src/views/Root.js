@@ -1,7 +1,6 @@
 import React from "react";
 import RootTemplate from "templates/RootTemplate";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
 import { Provider } from "react-redux";
 import store from "store";
 import MainTemplate from "templates/MainTemplate";
@@ -12,14 +11,13 @@ import Settings from "./Settings";
 import Chats from "./Chats";
 import Online from "./Online";
 import ChatRoom from "./ChatRoom";
-import { theme } from "theme/theme";
 import MobilePlus from "./MobilePlus";
+import ResponsiveRoute from "components/small/ResponsiveRoute";
 
 const App = () => {
-  const isDesktop = useMediaQuery({ minWidth: parseInt(theme.media.large) });
   return (
     <Provider store={store}>
-      <BrowserRouter basename={"/user"}>
+      <BrowserRouter basename="/user">
         <RootTemplate>
           <MainTemplate>
             <Switch>
@@ -28,21 +26,28 @@ const App = () => {
               <Route path="/random" component={Random} />
               <Route path="/settings" component={Settings} />
               <Route path="/chats/:roomId" component={ChatRoom} />
-              {isDesktop ? (
-                <>
-                  <Route path="/plus" render={() => <Redirect to="/addfriend" />} />
-                  <Route exact path="/" render={() => <Redirect to="/random" />} />
-                  <Route path="/chats" render={() => <Redirect to="/random" />} />
-                  <Route path="/online" render={() => <Redirect to="/random" />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/plus" component={MobilePlus} />
-                  <Route exact path="/" render={() => <Redirect to="/chats" />} />
-                  <Route path="/chats" component={Chats} />
-                  <Route path="/online" component={Online} />
-                </>
-              )}
+              <ResponsiveRoute
+                path="/plus"
+                mcomponent={MobilePlus}
+                drender={() => <Redirect to="/addfriend" />}
+              />
+              <ResponsiveRoute
+                exact
+                path="/"
+                mrender={() => <Redirect to="/chats" />}
+                drender={() => <Redirect to="/random" />}
+              />
+              <ResponsiveRoute
+                path="/chats"
+                mcomponent={Chats}
+                drender={() => <Redirect to="/random" />}
+              />
+              <ResponsiveRoute
+                path="/online"
+                mcomponent={Online}
+                drender={() => <Redirect to="/random" />}
+              />
+              } />
             </Switch>
           </MainTemplate>
         </RootTemplate>

@@ -1,4 +1,4 @@
-import { INCREMENT, ONLINE_FETCH_SUCCES } from "actions";
+import { INCREMENT, ONLINE_FETCH_SUCCES, CHATROOM_ID_SET } from "actions";
 
 const initialState = {
   onlineUsers: [],
@@ -7,21 +7,19 @@ const initialState = {
   messages: [],
   messagesCount: 0,
   roomId: null,
-
-  counter: 0,
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case INCREMENT:
-      return {
-        ...state,
-        counter: ++state.counter,
-      };
     case ONLINE_FETCH_SUCCES:
       return {
         ...state,
         onlineUsers: [...action.payload.data],
+      };
+    case CHATROOM_ID_SET:
+      return {
+        ...state,
+        roomId: action.payload.chatroomId,
       };
     default:
       break;

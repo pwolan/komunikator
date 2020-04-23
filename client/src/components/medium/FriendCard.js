@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
+import Avatar from "components/small/Avatar";
 
 const FriendCardContainer = styled.div`
   display: flex;
@@ -17,21 +18,6 @@ const FriendCardContainer = styled.div`
   &:hover {
     background: ${({ theme }) => theme.color.gray.light};
   }
-`;
-const AvatarContainer = styled.div`
-  flex-shrink: 0;
-  height: 80px;
-  width: 80px;
-  position: relative;
-`;
-const Avatar = styled.img`
-  height: 80%;
-  width: 80%;
-  border-radius: 100%;
-  background: white;
-  object-fit: cover;
-  margin: 10% 0;
-  display: block;
 `;
 const FriendContent = styled.div`
   flex-grow: 1;
@@ -61,9 +47,7 @@ const FriendTime = styled.div`
 const FriendCard = ({ avatarSrc, notify, username, lastMsg, time, alt }) => {
   return (
     <FriendCardContainer newMess={notify}>
-      <AvatarContainer>
-        <Avatar src={avatarSrc} alt={alt} />
-      </AvatarContainer>
+      <Avatar src={avatarSrc} alt={alt} />
       <FriendContent>
         <FriendName newMess={notify}>{username}</FriendName>
         <FriendText>{lastMsg}</FriendText>
@@ -91,4 +75,3 @@ FriendCard.defaultProps = {
 };
 
 export default FriendCard;
-//130,128,128

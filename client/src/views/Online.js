@@ -3,6 +3,7 @@ import OnlineCard from "components/medium/OnlineCard";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { fetchOnlineUsers } from "actions";
+import AcceptCard from "components/medium/AcceptCard";
 
 const Container = styled.div`
   height: 100%;
@@ -20,15 +21,14 @@ class Online extends React.Component {
     const { users } = this.props;
     return (
       <Container>
-        {users.map(({ idusers, username, avatar, status }) => (
-          <OnlineCard
-            key={idusers}
-            id={idusers}
-            username={username}
-            avatar={avatar}
-            status={status}
-          />
-        ))}
+        {users.map(({ idusers, username, avatar, status }) => {
+          const cardProps = { key: idusers, id: idusers, username, avatar };
+          if (status === 1) {
+            return <OnlineCard {...cardProps} />;
+          } else if (status === 0) {
+            return <AcceptCard {...cardProps} />;
+          }
+        })}
       </Container>
     );
   }

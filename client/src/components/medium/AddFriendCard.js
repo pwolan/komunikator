@@ -41,8 +41,15 @@ const StyledButton = styled.button`
   &:disabled {
     background: ${({ theme }) => theme.color.disabled};
   }
+  &:focus {
+    outline: 0;
+  }
 `;
-
+const Send = styled.div`
+  margin-left: auto;
+  margin-right: 20px;
+  font-size: 20px;
+`;
 class AddFriendCard extends React.Component {
   static propTypes = {
     avatar: PropTypes.string,
@@ -55,7 +62,7 @@ class AddFriendCard extends React.Component {
   state = {
     isDisabled: false,
     failAddFriend: false,
-    hidden: false,
+    succesAddFriend: false,
   };
   handleAddClick = (id) => {
     this.setState({
@@ -70,7 +77,7 @@ class AddFriendCard extends React.Component {
       if (succes) {
         this.setState({
           failAddSearch: false,
-          hidden: true,
+          succesAddFriend: true,
         });
       } else {
         this.setState({ failAddFriend: true });
@@ -87,16 +94,19 @@ class AddFriendCard extends React.Component {
   }
   render() {
     const { username, idusers, avatar } = this.props;
-    const { isDisabled, hidden } = this.state;
+    const { isDisabled, succesAddFriend } = this.state;
     const { handleAddClick } = this;
-    if (hidden) return null;
     return (
       <StyledLi>
         <Avatar src={avatar} />
         <PUser>{username}</PUser>
-        <StyledButton disabled={isDisabled} onClick={handleAddClick.bind(this, idusers)}>
-          ADD
-        </StyledButton>
+        {succesAddFriend ? (
+          <Send>Invited</Send>
+        ) : (
+          <StyledButton disabled={isDisabled} onClick={handleAddClick.bind(this, idusers)}>
+            ADD
+          </StyledButton>
+        )}
       </StyledLi>
     );
   }

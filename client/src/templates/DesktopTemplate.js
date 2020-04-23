@@ -5,6 +5,7 @@ import Online from "views/Online";
 import Logo from "components/small/Logo";
 import NavBar from "components/large/Navbar";
 import UserStats from "components/medium/UserStats";
+import SectionTitle from "components/small/SectionTitle";
 const Container = styled.div`
   display: grid;
   grid-template-columns: 25% 50% 25%;
@@ -25,19 +26,6 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Title = styled.div`
-  display: block;
-  height: 80px;
-  background: rgb(255, 140, 0);
-  color: white;
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-  h3 {
-    margin: 0 auto;
-  }
-`;
 const SectionHeader = styled.h3``;
 const DesktopTemplate = ({ children }) => {
   return (
@@ -46,16 +34,16 @@ const DesktopTemplate = ({ children }) => {
       <NavBar></NavBar>
       <UserStats />
       <Box>
-        <Title>
+        <SectionTitle>
           <h3>Chats</h3>
-        </Title>
+        </SectionTitle>
         <Chats />
       </Box>
       <Panel>{children}</Panel>
       <Box>
-        <Title>
+        <SectionTitle>
           <SectionHeader>Online Users</SectionHeader>
-        </Title>
+        </SectionTitle>
         <Online />
       </Box>
     </Container>

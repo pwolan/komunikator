@@ -5,26 +5,12 @@ import AddFriendCard from "components/medium/AddFriendCard";
 import cancelIcon from "icons/cancel.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import SectionTitle from "components/small/SectionTitle";
 
 const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-`;
-const Title = styled.div`
-  height: 80px;
-  background: ${({ theme }) => theme.color.primary};
-  color: white;
-  flex-shrink: 0;
-
-  display: none;
-  align-items: center;
-  h3 {
-    margin: 0 auto;
-  }
-  @media (min-width: ${({ theme }) => theme.media.large}) {
-    display: flex;
-  }
 `;
 const Search = styled.input`
   width: calc(100% - 40px);
@@ -73,6 +59,7 @@ class AddFriend extends React.Component {
     let { value } = e.target;
     if (value === "") {
       this.requestSource.cancel();
+      this.requestSource = axios.CancelToken.source();
     }
     this.fetchSearchUsers(value);
     this.setState({
@@ -110,9 +97,9 @@ class AddFriend extends React.Component {
     let { searchValue, users } = this.state;
     return (
       <Container>
-        <Title>
+        <SectionTitle>
           <h3>Add Friends</h3>
-        </Title>
+        </SectionTitle>
         <Search
           type="search"
           value={searchValue}
@@ -137,53 +124,3 @@ class AddFriend extends React.Component {
 }
 
 export default AddFriend;
-/* <StyledLi key={idusers}>
-                <Avatar src="/avatars/default.png" />
-                <PUser>{username}</PUser>
-                <StyledButton
-                  disabled={disabledButtons.some((id) => id === idusers)}
-                  onClick={handleAddClick.bind(this, idusers)}
-                >
-                  ADD
-                </StyledButton>
-            </StyledLi>*/
-
-//             const StyledLi = styled.li`
-//   display: flex;
-//   align-items: center;
-//   height: 50px;
-//   padding: 0 10px;
-//   &:hover {
-//     ${({ theme }) => theme.color.gray.lightmedium}
-//   }
-// `;
-// const Avatar = styled.img`
-//   width: 40px;
-//   border-radius: 10px;
-//   display: block;
-//   margin-left: 10px;
-// `;
-// const PUser = styled.p`
-//   display: block;
-//   margin: 0;
-//   padding-left: 5px;
-//   font-size: 23px;
-//   font-weight: bold;
-// `;
-// const StyledButton = styled.button`
-//   display: block;
-//   margin-left: auto;
-//   margin-right: 10px;
-//   width: 80px;
-//   height: 40px;
-//   border-radius: 20px;
-//   background: ${({ theme }) => theme.color.primary};
-//   color: white;
-//   border: 0px;
-//   text-align: center;
-//   font-size: 20px;
-//   padding-top: 4px;
-//   &:disabled {
-//     background: ${({ theme }) => theme.color.disabled};
-//   }
-// `;

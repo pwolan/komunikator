@@ -7,9 +7,6 @@ exports.initSocket = (io) => {
   io.on("connection", (socket) => {
     socket.emit("test", { d: "testdata" });
     let { session } = socket.handshake;
-    // socket.on("adduser", (username, id) => {
-    //   // socket.username = username;
-    // });
     socket.on("changeroom", async (friendId) => {
       let { idusers } = session.user;
       roomId = idusers < friendId ? `${idusers}#${friendId}` : `${friendId}#${idusers}`;

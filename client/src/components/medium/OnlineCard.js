@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import withContext from "context/withContext";
+import Avatar from "components/small/Avatar";
 
 const Container = styled.div`
   display: flex;
@@ -20,21 +21,6 @@ const Container = styled.div`
   }
 `;
 
-const AvatarContainer = styled.div`
-  flex-shrink: 0;
-  height: 80px;
-  width: 80px;
-  position: relative;
-`;
-const Avatar = styled.img`
-  height: 80%;
-  width: 80%;
-  border-radius: 100%;
-  background: white;
-  object-fit: cover;
-  margin: 10% 0;
-  display: block;
-`;
 const Content = styled.div`
   flex-grow: 1;
   overflow: hidden;
@@ -63,16 +49,13 @@ const Status = styled.div`
   font-size: 14px;
 `;
 
-const OnlineCard = ({ username, src, alt, userContext, id }) => {
+const OnlineCard = ({ username, src, alt, id, userContext }) => {
   const user = userContext.user || {};
   const { idusers } = user;
-
-  let roomId = id < idusers ? `${id}#${idusers}` : `${idusers}#${id}`;
+  let chatroomId = id < idusers ? `${id}|${idusers}` : `${idusers}|${id}`;
   return (
-    <Container as={Link} to={`/chats/${roomId}`}>
-      <AvatarContainer>
-        <Avatar src={src} alt={alt} />
-      </AvatarContainer>
+    <Container as={Link} to={`/chats/${chatroomId}`}>
+      <Avatar src={src} alt={alt} />
       <Content>
         <Username>{username}</Username>
         <Status>Online</Status>
@@ -91,24 +74,4 @@ OnlineCard.propTypes = {
   id: PropTypes.number.isRequired,
 };
 
-OnlineCard.defaultProps = {
-  src: "/avatars/default.png",
-  alt: "avatar",
-};
-
 export default withContext(OnlineCard);
-
-//.friends-card.px-4.py-3(data-id=friend.idusers)
-//             .friends-card-avatar-container
-//                 img.friends-card-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-//             -if(friend.status == 1)
-//                 .friends-card-content.p-3
-//                     .friends-card-username.font-weight-bold=friend.username
-//                     .friends-card-text Offline
-//                 .friends-card-statusdot
-//                     .friends-card-statusdot-body
-//             -else
-//                 .friends-card-content.p-3
-//                     .friends-card-username.font-weight-bold=friend.username
-//                     button.acceptFriend accept
-//                     button.declineFriend decline
