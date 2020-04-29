@@ -8,7 +8,6 @@ class RootTemplate extends React.Component {
     const { children } = this.props;
     return (
       <div>
-        {/* <PageContext.Provider value={val}></PageContext.Provider> */}
         <UserProvider>
           <ThemeProvider theme={theme}>{children}</ThemeProvider>
         </UserProvider>

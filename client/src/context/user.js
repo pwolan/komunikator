@@ -8,7 +8,7 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const getUser = async () => {
-    const { data } = await Axios.get("/friends/currentUser");
+    const { data } = await Axios.get("/account/current");
     setData(data);
     setLoading(false);
   };

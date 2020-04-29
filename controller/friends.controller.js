@@ -1,24 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const Friend = require("../model/friend");
-const User = require("../model/user");
+const Chat = require("../model/chat");
 
-router.get("/currentUser", (req, res) => {
-  const { user } = req.session;
-  res.json(user);
+router.get("/online", async (req, res) => {
+  const { idusers } = req.session.user;
+  const data = await Friend.view(idusers);
+  res.json(data);
 });
-router.get("/userStats/:id", async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-  const user = await User.get(id);
-  console.log(user);
-  res.json({
-    user,
-  });
-});
-router.post("/searchFriend", async (req, res) => {
-  const { text } = req.body;
-  console.log(req.body);
+
+router.get("/search/:text", async (req, res) => {
+  const { text } = req.params;
   let { idusers } = req.session.user;
   const users = await Friend.find(text, idusers);
   console.log(users);
@@ -36,17 +28,18 @@ router.post("/addFriend", async (req, res) => {
   });
 });
 
-router.get("/declineFriend/:friend", async (req, res) => {
-  const { friend } = req.params;
+router.delete("/declineFriend/:friendId", async (req, res) => {
+  const { friendId } = req.params;
   let userId = req.session.user.idusers;
-  let succes = await Friend.remove(userId, friend);
+  let succes = await Friend.remove(userId, friendId);
   res.json({ succes });
 });
 
-router.get("/acceptFriend/:friend", async (req, res) => {
-  const { friend } = req.params;
+router.put("/acceptFriend/:friendId", async (req, res) => {
+  const { friendId } = req.params;
   let userId = req.session.user.idusers;
-  let succes = await Friend.accept(userId, friend);
+  let succes = await Friend.accept(userId, friendId);
+  Chat.create([userId, friendId]);
   res.json({
     succes,
   });

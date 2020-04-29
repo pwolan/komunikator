@@ -60,11 +60,13 @@ module.exports = {
   },
   async view(userid) {
     try {
-      var sql = `SELECT users.username, users.idusers, friends.status
+      var sql = `SELECT users.username, users.idusers, friends.status, userInRoom.roomid
       FROM users
       INNER JOIN friends
       ON users.idusers=friends.user_id
-      OR (users.idusers=friends.friend_id  AND friends.status=1)
+      OR (users.idusers=friends.friend_id AND friends.status=1)
+      INNER JOIN userInRoom
+      ON users.idusers=userInRoom.userid
       WHERE idusers IN
       (SELECT friends.friend_id
         FROM friends 
@@ -77,8 +79,15 @@ module.exports = {
         INNER JOIN users 
         ON friends.friend_id=users.idusers
         WHERE users.idusers=?)
-        AND (friends.user_id=? OR friends.friend_id=?)`;
-      const result = await con.query(sql, [userid, userid, userid, userid]);
+        AND (friends.user_id=? OR friends.friend_id=?)
+        AND roomid IN 
+          (SELECT a.roomid
+          FROM userInRoom AS a
+          INNER JOIN userInRoom AS b
+          ON a.roomid = b.roomid
+          WHERE a.userid=users.idusers
+          AND b.userid=?)`;
+      const result = await con.query(sql, [userid, userid, userid, userid, userid]);
       return result;
     } catch (err) {
       console.log(err);

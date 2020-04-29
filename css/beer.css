@@ -1,0 +1,78 @@
+.beer a {
+  text-decoration: none; }
+
+.beer__container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 100%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 4em 2em;
+  z-index: 2; }
+  .beer__container .masthead-heading {
+    font-size: 4em; }
+    @media (max-width: 500px) {
+      .beer__container .masthead-heading {
+        font-size: 3em; } }
+  .beer__container .masthead-subheading {
+    font-size: 2.5em; }
+    @media (max-width: 500px) {
+      .beer__container .masthead-subheading {
+        font-size: 2em; } }
+
+@-webkit-keyframes bubblesbb {
+  0% {
+    visibility: visible;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    top: 100%; }
+  15% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    top: 100%; }
+  100% {
+    top: -100%;
+    -webkit-transform: translateY(-10%);
+            transform: translateY(-10%); } }
+
+html,
+body {
+  margin: 0;
+  padding: 0; }
+
+.beer {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #c05600;
+  /* Old browsers */
+  /* FF3.6+ */
+  /* Chrome,Safari4+ */
+  /* Chrome10+,Safari5.1+ */
+  /* Opera 11.10+ */
+  /* IE10+ */
+  background: -webkit-gradient(linear, left top, right top, from(#c05600), color-stop(21%, #dc7000), color-stop(51%, #e87c00), color-stop(81%, #e87c00), to(#dc7000));
+  background: linear-gradient(to right, #c05600 0%, #dc7000 21%, #e87c00 51%, #e87c00 81%, #dc7000 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c05600', endColorstr='#dc7000',GradientType=1 );
+  /* IE6-9 */ }
+
+.hubble {
+  position: absolute;
+  background-color: transparent;
+  background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/173991/bubble.png);
+  background-size: cover;
+  background-position: center center;
+  border-radius: 100%;
+  opacity: 0.5;
+  visibility: hidden;
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+  -webkit-animation: bubblesbb 7s infinite;
+  animation: bubblesbb 7s infinite;
+  z-index: 1; }
+/*# sourceMappingURL=beer.css.map */

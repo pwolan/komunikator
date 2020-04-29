@@ -20,7 +20,7 @@ export const fetchChats = () => (dispatch) => {
 
 export const fetchOnlineUsers = () => (dispatch) => {
   return axios
-    .get("/chat/onlineusers")
+    .get("/friends/online")
     .then(({ data }) => {
       dispatch({
         type: ONLINE_FETCH_SUCCES,

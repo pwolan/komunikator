@@ -1,27 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import withContext from "context/withContext";
-import { withRouter } from "react-router";
-import { setChatroomId } from "actions";
-import { connect } from "react-redux";
+import * as ChatApi from "network/chatroom";
+import Message from "components/small/Message";
+import ChatRoomNav from "components/large/ChatRoomNav";
+import MessageSendForm from "components/medium/MessageSendForm";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
-`;
-
-const ChatNav = styled.div`
-  height: 56px;
-  @media (min-width: 992px) {
-    height: 80px;
-  }
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-  color: white;
-  padding: 0 5px;
-  background: ${({ theme }) => theme.color.primary};
 `;
 
 const ChatBox = styled.div`
@@ -30,7 +17,6 @@ const ChatBox = styled.div`
   overflow-y: scroll;
   padding-top: 10px;
 `;
-
 const MessageSend = styled.div`
   width: 100%;
   height: 58px;
@@ -38,88 +24,109 @@ const MessageSend = styled.div`
   padding-top: 7px;
   position: relative;
 `;
-const SendBox = styled.textarea`
-  width: 70%;
-  margin-left: 5%;
-  resize: none;
-  padding: 10px 20px;
-  font-size: 17px;
-  border: 0px;
-  border-radius: 10px;
-  background-color: rgb(213, 223, 230);
-  &:focus {
-    outline: none;
-  }
-`;
-const SendButton = styled.button`
-  width: 15%;
-  height: 47px;
-  right: 5%;
-  position: absolute;
-  border: 0px;
-  border-radius: 10px;
-  color: white;
-  background: rgb(255, 165, 0);
-`;
 
-const ChatRoom = ({ match, setRoomId }) => {
-  const [messageText, setMessageText] = useState("");
-  function handleTextArea(e) {
-    setMessageText(e.target.value);
+const ChatRoom = ({ match, userContext }) => {
+  const [roomStateId, setStateRoomId] = useState(null);
+  // const [areMessagesLoading, setAreMessagesLoading] = useState(true);
+  const [messages, setMessages] = useState([]);
+  let scrollFetch = true;
+
+  const messagesEndRef = useRef();
+  const chatBoxRef = useRef(null);
+
+  async function fetchMessages() {
+    try {
+      let newMessages = await ChatApi.fetchMessages(messages.length);
+      let toPush = newMessages.reverse();
+      if (toPush.length === 0) {
+        scrollFetch = false;
+      } else {
+        scrollFetch = true;
+        setMessages((msgs) => [...toPush, ...msgs]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
-  function handleButtonClick() {
-    //do some magic
-  }
+
+  //roomId Changing
   useEffect(() => {
     const { roomId } = match.params;
-    setRoomId(roomId);
-    console.log(roomId);
-  }, []);
-  console.log(match.params);
+    setStateRoomId(roomId);
+
+    //getting frined/chatRoom data
+    async function getRoomData() {
+      try {
+        let data = await ChatApi.getRoomData(roomId);
+      } catch (err) {
+        setStateRoomId(null);
+        console.error(err);
+      }
+    }
+    getRoomData();
+
+    //fetching time
+    isNotFetching = false;
+    fetchMessages().then(() => {
+      messagesEndRef.current.scrollIntoView({ behavior: "auto" });
+      scrollFetch = true;
+      isNotFetching = true;
+    });
+
+    ChatApi.changeRoom(roomId);
+    ChatApi.subscribeRoom(getMessage);
+    return () => {
+      ChatApi.unSubscribeRoom();
+    };
+  }, [match.params.roomId]);
+
+  function getMessage(message) {
+    setMessages((messages) => [...messages, message]);
+    const { scrollTop, scrollHeight, clientHeight } = chatBoxRef.current;
+    if (scrollHeight - scrollTop - clientHeight < 400) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  let isNotFetching = true;
+  function handleScroll(e) {
+    if (e.target.scrollTop <= 10 && isNotFetching) {
+      if (scrollFetch) {
+        isNotFetching = false;
+        let [mostTopMsg] = chatBoxRef.current.children;
+        fetchMessages().then(() => {
+          isNotFetching = true;
+          mostTopMsg.scrollIntoView({ behavior: "auto", block: "start" });
+          chatBoxRef.current.scrollBy(0, -10);
+        });
+      }
+    }
+  }
+
   return (
     <Container>
-      <ChatNav>
-        <i></i>
-        <div>
-          <img src="" alt="" />
-        </div>
-        <h5></h5>
-        <div>
-          <i></i>
-          <i></i>
-        </div>
-      </ChatNav>
-      <ChatBox>
-        <div>text1</div>
-        <div>text2</div>
+      <ChatRoomNav />
+      <ChatBox ref={chatBoxRef} onScroll={handleScroll}>
+        {messages &&
+          messages.map((msg) => (
+            <Message
+              user={msg.senderid === userContext.user.idusers}
+              key={msg.idmessages}
+              {...msg}
+            />
+          ))}
+        <button
+          onClick={() => {
+            fetchMessages();
+          }}
+        >
+          fetch
+        </button>
+        <div ref={messagesEndRef} />
       </ChatBox>
-      <MessageSend>
-        <SendBox
-          value={messageText}
-          onChange={handleTextArea}
-          placeholder="Write here..."
-          rows="1"
-        ></SendBox>
-        <SendButton>Send</SendButton>
-      </MessageSend>
+      <MessageSendForm />
     </Container>
   );
 };
-const mapDispatchToProps = (dispatch) => ({
-  setRoomId: (roomId) => dispatch(setChatroomId(roomId)),
-});
-export default connect(null, mapDispatchToProps)(withRouter(ChatRoom));
 
-// #chat
-//     .chat-nav
-//         i#prev.fa.fa-arrow-left.d-lg-none
-//         .chat-nav-container
-//             img.chat-nav-avatar(src="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png")
-//         h5#friendName
-//         .chat-nav-buttons
-//             i.fa.fa-phone-alt
-//             i.fa.fa-video
-//     .chat-box
-//     form#messageSender.message-send
-//         textarea.message-send-sender(placeholder="Write here..." name="text" rows="1")
-//         input.message-send-button(type="button" value="Send")
+export default withContext(ChatRoom);

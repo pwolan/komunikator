@@ -1,0 +1,84 @@
+.chat-nav {
+  height: 56px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  color: white;
+  background: darkorange;
+  padding: 0 5px; }
+  @media (min-width: 992px) {
+    .chat-nav {
+      height: 80px; } }
+  .chat-nav i {
+    font-size: 30px;
+    margin-right: 5px; }
+  .chat-nav h5 {
+    padding-left: 20px;
+    font-size: 30px; }
+  .chat-nav-container {
+    width: 35px; }
+  .chat-nav-avatar {
+    -o-object-fit: cover;
+       object-fit: cover;
+    width: 100%;
+    border-radius: 10px;
+    margin-left: 10px;
+    border-radius: 100%;
+    background: white; }
+  .chat-nav-buttons {
+    margin-left: auto;
+    margin-right: 10px; }
+    .chat-nav-buttons i {
+      font-size: 20px;
+      padding-left: 10px; }
+
+.chat-box {
+  height: calc(100% - 58px);
+  width: 100%;
+  overflow-y: scroll;
+  padding-top: 10px; }
+  @media (min-width: 992px) {
+    .chat-box {
+      height: calc(100% - 80px); } }
+  .chat-box-sender {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px; }
+    .chat-box-sender-container {
+      width: 30px; }
+    .chat-box-sender-avatar {
+      -o-object-fit: cover;
+         object-fit: cover;
+      width: 100%;
+      border-radius: 10px;
+      margin-left: 10px; }
+    .chat-box-sender-message {
+      width: 65%;
+      border-radius: 10px;
+      padding: 10px;
+      margin-left: 20px;
+      background: orange; }
+  .chat-box-reciver {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px; }
+    .chat-box-reciver-message {
+      margin-left: auto;
+      margin-right: 10px;
+      width: 65%;
+      border-radius: 10px;
+      padding: 10px;
+      background: #f1f5f8; }
+
+.message {
+  background: #f4e0c6; }
+/*# sourceMappingURL=user.css.map */

@@ -76,11 +76,9 @@ class AddFriend extends React.Component {
       return;
     }
     try {
-      let { data } = await axios.post(
-        "/friends/searchFriend",
-        { text },
-        { cancelToken: this.requestSource.token }
-      );
+      let { data } = await axios.get(`/friends/search/${text}`, {
+        cancelToken: this.requestSource.token,
+      });
       let { users } = data;
       this.setState({ users, failSearch: false });
     } catch (err) {

@@ -55,7 +55,7 @@ const AcceptCard = ({ username, src, alt, id }) => {
   async function handleAccept() {
     setIsAcceptDisabled(true);
     try {
-      let { data } = await axios.get(`/friends/acceptFriend/${id}`);
+      let { data } = await axios.put(`/friends/acceptFriend/${id}`);
       let { succes } = data;
       if (succes) {
         setUserStatus("accepted");
@@ -69,7 +69,7 @@ const AcceptCard = ({ username, src, alt, id }) => {
   async function handleDecline() {
     setIsDeclineDisabled(true);
     try {
-      let { data } = await axios.get(`/friends/declineFriend/${id}`);
+      let { data } = await axios.delete(`/friends/declineFriend/${id}`);
       let { succes } = data;
       if (succes) {
         setUserStatus("declined");

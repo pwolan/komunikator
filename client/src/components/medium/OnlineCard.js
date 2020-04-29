@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Link, withRouter } from "react-router-dom";
-import withContext from "context/withContext";
+import { Link } from "react-router-dom";
 import Avatar from "components/small/Avatar";
 
 const Container = styled.div`
@@ -49,12 +48,9 @@ const Status = styled.div`
   font-size: 14px;
 `;
 
-const OnlineCard = ({ username, src, alt, id, userContext }) => {
-  const user = userContext.user || {};
-  const { idusers } = user;
-  let chatroomId = id < idusers ? `${id}|${idusers}` : `${idusers}|${id}`;
+const OnlineCard = ({ username, src, alt, roomid }) => {
   return (
-    <Container as={Link} to={`/chats/${chatroomId}`}>
+    <Container as={Link} to={`/chats/${roomid}`}>
       <Avatar src={src} alt={alt} />
       <Content>
         <Username>{username}</Username>
@@ -71,7 +67,6 @@ OnlineCard.propTypes = {
   username: PropTypes.string.isRequired,
   src: PropTypes.string,
   alt: PropTypes.string,
-  id: PropTypes.number.isRequired,
 };
 
-export default withContext(OnlineCard);
+export default OnlineCard;
