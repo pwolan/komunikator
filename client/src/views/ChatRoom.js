@@ -137,18 +137,18 @@ const ChatBox = styled.div`
 const ChatRoom = ({ userContext, match }) => {
   const { roomId } = match.params;
   const [messages, setMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     //init
     ChatApi.changeRoom(roomId, () => {
       ChatApi.subscribeRoom(getMessage);
       //fetch using get
       ChatApi.fetchMessages(0).then((data) => {
-        // if (err) {
-        //   //enable 'cannot connect to the server, please check internet connection' text
-        // }
-        console.log(data);
-        let messages = data.reverse();
-        setMessages(messages);
+        if (data) {
+          let messages = data.reverse();
+          setMessages(messages);
+          setIsLoading(false);
+        }
       });
     });
 
@@ -157,6 +157,7 @@ const ChatRoom = ({ userContext, match }) => {
       ChatApi.unSubscribeRoom();
       ChatApi.cancelFetch();
       setMessages([]);
+      setIsLoading(true);
     };
   }, [roomId]);
 
@@ -164,11 +165,23 @@ const ChatRoom = ({ userContext, match }) => {
     console.log(message);
     setMessages((oldMessages) => [...oldMessages, message]);
   }
+  async function fetchMoreMessages() {
+    if (!isLoading) {
+      let number = messages.length;
+      let data = await ChatApi.fetchMessages(number);
+      if (data) {
+        let newMessages = data.reverse();
+        setMessages((oldMessages) => [...newMessages, ...oldMessages]);
+        ChatApi.disableFetchMessages();
+      }
+    }
+  }
 
   return (
     <Container>
       <ChatRoomNav />
       <ChatBox>
+        {isLoading && <div>Loading...</div>}
         {messages &&
           messages.map((msg) => (
             <Message
@@ -177,6 +190,13 @@ const ChatRoom = ({ userContext, match }) => {
               {...msg}
             />
           ))}
+        <button
+          onClick={() => {
+            fetchMoreMessages();
+          }}
+        >
+          fetch
+        </button>
       </ChatBox>
       <MessageSendForm />
     </Container>

@@ -4,6 +4,7 @@ import axios from "axios";
 const socket = socketIO.connect("/chat");
 
 export const changeRoom = async (roomId, next) => {
+  enableFetchMessages();
   socket.emit("changeroom", roomId);
   socket.on("changeroom succes", () => {
     console.log("changeroom succes!");
@@ -21,7 +22,10 @@ export const getRoomData = async (roomId) => {
 //#region Messages
 let fetchCancelToken = axios.CancelToken.source();
 let fetchTimeoutToken;
+let isFetchMessageEnabled = true;
 export const fetchMessages = async (number) => {
+  console.log(isFetchMessageEnabled);
+  if (!isFetchMessageEnabled) return null;
   try {
     let { data } = await axios.get(`/chat/messages/${number}`, {
       cancelToken: fetchCancelToken.token,
@@ -31,13 +35,19 @@ export const fetchMessages = async (number) => {
   } catch (err) {
     if (axios.isCancel(err)) {
       console.log("Cancelled ");
-      return [];
+      return null;
     }
     console.error("Cannot connect to the server, reconnectiong...");
-    //TODO better error handling
     fetchTimeoutToken = setTimeout(fetchMessages.bind(this, number), 3000);
     return fetchTimeoutToken;
   }
+};
+
+function enableFetchMessages() {
+  isFetchMessageEnabled = true;
+}
+export const disableFetchMessages = () => {
+  isFetchMessageEnabled = false;
 };
 
 export const cancelFetch = async () => {
