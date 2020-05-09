@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import * as InviteApi from "network/onlineUsers";
 
 const StyledLi = styled.li`
   display: flex;
@@ -64,32 +65,25 @@ class AddFriendCard extends React.Component {
     failAddFriend: false,
     succesAddFriend: false,
   };
-  handleAddClick = (id) => {
+  handleAddClick = async (id) => {
     this.setState({
       isDisabled: true,
     });
-    this.addUserRequest(id);
+    await this.addUserRequest(id);
+    //enable button
+    this.setState({
+      isDisabled: false,
+    });
   };
   async addUserRequest(id) {
-    try {
-      let res = await axios.post("/friends/addFriend", { friendId: id });
-      let { succes } = res.data;
-      if (succes) {
-        this.setState({
-          failAddSearch: false,
-          succesAddFriend: true,
-        });
-      } else {
-        this.setState({ failAddFriend: true });
-      }
-    } catch (error) {
-      console.error(error);
-      this.setState({ failAddFriend: true });
-    } finally {
-      //enable button
+    let succes = await InviteApi.inviteUser(id);
+    if (succes) {
       this.setState({
-        isDisabled: false,
+        failAddSearch: false,
+        succesAddFriend: true,
       });
+    } else {
+      this.setState({ failAddFriend: true });
     }
   }
   render() {

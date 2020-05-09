@@ -2,7 +2,6 @@
   "name": "express-webpack-template",
   "version": "0.0.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
   "scripts": {
     "start:server": "nodemon server.js",
     "start:client": "cd client && yarn build",
@@ -27,6 +26,7 @@
     "helmet": "^3.22.0",
     "http": "0.0.1-security",
     "http-errors": "~1.6.3",
+    "lodash.debounce": "^4.0.8",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "mysql-promise": "^5.0.0",

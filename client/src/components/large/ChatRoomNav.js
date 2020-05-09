@@ -49,15 +49,15 @@ const StyledCall = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
-const ChatRoomNav = ({ userContext }) => {
-  const { user } = userContext;
+const ChatRoomNav = ({ roomData, userContext }) => {
+  const { roomName } = roomData || {};
   return (
     <Container>
       <StyledLeft icon={faArrowLeft} />
       <AvatarContainer>
         <Avatar src="" alt="" />
       </AvatarContainer>
-      <h5>{user.username}</h5>
+      <h5>{roomName}</h5>
       <Buttons>
         <StyledCall icon={faPhoneAlt} />
         <StyledCall icon={faVideo} />

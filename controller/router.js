@@ -19,7 +19,7 @@ module.exports = function (io) {
   router.get("/logout", redirectLogin, auth.logout);
 
   //api
-  router.use("/friends", redirectLogin, require("./friends.controller"));
+  router.use("/friends", redirectLogin, require("./friends.controller")(io));
   router.use("/chat", redirectLogin, require("./chat.controller")(io));
   router.use("/account", redirectLogin, require("./account.controller"));
 

@@ -33,21 +33,36 @@ module.exports = {
     return result;
   },
   async view(roomid, number) {
-    console.log("liczba: ", number);
-    var limit = parseInt(number) + 1;
-    console.log(limit);
+    var limit = parseInt(number);
     var sql = `SELECT users.username, users.avatar, messages.idmessages, messages.senderid, messages.message, messages.date
       FROM messages
       INNER JOIN users
       ON users.idusers = messages.senderid
       WHERE roomid=?
-      ORDER BY messages.date DESC
+      ORDER BY messages.idmessages DESC
       LIMIT ?,30`;
     try {
       const result = await con.query(sql, [roomid, limit]);
       return result;
     } catch (err) {
       console.log(err);
+      return null;
+    }
+  },
+  async stats(roomid, idusers) {
+    let sql = `SELECT IFNULL(rooms.name_room, users.username COLLATE utf8_unicode_ci) as roomName
+    FROM rooms
+    INNER JOIN userInRoom
+    ON rooms.idrooms = userInRoom.roomid
+    INNER JOIN users
+    ON userInRoom.userid = users.idusers
+    WHERE roomid=? AND userid!=?
+     `;
+    try {
+      const result = await con.query(sql, [roomid, idusers]);
+      return result;
+    } catch (err) {
+      console.error(err);
       return null;
     }
   },

@@ -46,8 +46,10 @@ const MessageSendForm = () => {
     }
   }
   function handleSend() {
-    setMessageText("");
-    ChatApi.sendMessage(messageText);
+    if (messageText !== "") {
+      setMessageText("");
+      ChatApi.sendMessage(messageText);
+    }
   }
   return (
     <Container>

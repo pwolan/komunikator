@@ -1,4 +1,6 @@
 import axios from "axios";
+import * as ChatApi from "network/chatroom";
+import * as OnlineApi from "network/onlineUsers";
 
 export const INCREMENT = "INCREMENT";
 export const CHATS_FETCH = "CHATS_FETCH";
@@ -40,6 +42,4 @@ export const setChatroomId = (chatroomId) => ({
   payload: { chatroomId },
 });
 
-export const fetchChatroomMessages = () => (dispatch) => {
-  // return axios
-};
+export const fetchChatroomMessages = (number = 0) => (dispatch) => {};

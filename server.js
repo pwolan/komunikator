@@ -49,7 +49,9 @@ app.use(mainSession);
 var sharedsession = require("express-socket.io-session");
 const io = require("socket.io")(http);
 io.use(sharedsession(mainSession));
-io.origins(["http://localhost:3000", "http://localhost:5000"]);
+io.of("/friends").use(sharedsession(mainSession));
+io.of("/chat").use(sharedsession(mainSession));
+// io.origins(["http://localhost:3000", "http://localhost:5000"]);
 
 app.use("/favicon.ico", express.static(path.join(__dirname + "images/favicon.ico")));
 //add router

@@ -60,34 +60,139 @@ module.exports = {
   },
   async view(userid) {
     try {
-      var sql = `SELECT users.username, users.idusers, friends.status, userInRoom.roomid
-      FROM users
-      INNER JOIN friends
-      ON users.idusers=friends.user_id
-      OR (users.idusers=friends.friend_id AND friends.status=1)
-      INNER JOIN userInRoom
-      ON users.idusers=userInRoom.userid
-      WHERE idusers IN
-      (SELECT friends.friend_id
-        FROM friends 
-        INNER JOIN users 
-        ON friends.user_id = users.idusers 
-        WHERE users.idusers=? 
-        UNION
-        SELECT friends.user_id
-        FROM friends 
-        INNER JOIN users 
-        ON friends.friend_id=users.idusers
-        WHERE users.idusers=?)
-        AND (friends.user_id=? OR friends.friend_id=?)
-        AND roomid IN 
-          (SELECT a.roomid
-          FROM userInRoom AS a
-          INNER JOIN userInRoom AS b
-          ON a.roomid = b.roomid
-          WHERE a.userid=users.idusers
-          AND b.userid=?)`;
-      const result = await con.query(sql, [userid, userid, userid, userid, userid]);
+      var sql = `SELECT DISTINCT tab.username, tab.idusers, tab.status, max(tab.roomid) AS roomid
+      FROM(
+      SELECT users.username, users.idusers, friends.status, userInRoom.roomid
+            FROM users
+            INNER JOIN friends
+            ON users.idusers=friends.user_id
+            OR (users.idusers=friends.friend_id AND friends.status=1)
+            LEFT JOIN userInRoom
+            ON users.idusers=userInRoom.userid
+            WHERE idusers IN
+            (SELECT friends.friend_id
+              FROM friends 
+              INNER JOIN users 
+              ON friends.user_id = users.idusers 
+              WHERE users.idusers=? 
+              UNION
+              SELECT friends.user_id
+              FROM friends 
+              INNER JOIN users 
+              ON friends.friend_id=users.idusers
+              WHERE users.idusers=?)
+              AND (friends.user_id=? OR friends.friend_id=?)
+              AND IF(friends.status=1,roomid IN 
+                (SELECT a.roomid
+                FROM userInRoom AS a
+                INNER JOIN userInRoom AS b
+                ON a.roomid = b.roomid
+                WHERE a.userid=users.idusers
+                AND b.userid=?),NULL)
+          UNION 
+              SELECT users.username, users.idusers, friends.status, NULL
+            FROM users
+            INNER JOIN friends
+            ON users.idusers=friends.user_id
+            OR (users.idusers=friends.friend_id AND friends.status=1)
+            WHERE idusers IN
+            (SELECT friends.friend_id
+            FROM friends 
+            INNER JOIN users 
+            ON friends.user_id = users.idusers 
+            WHERE users.idusers=? 
+            UNION
+            SELECT friends.user_id
+            FROM friends 
+            INNER JOIN users 
+            ON friends.friend_id=users.idusers
+            WHERE users.idusers=?)
+            AND (friends.user_id=? OR friends.friend_id=?)) AS tab
+                  GROUP BY tab.username`;
+      const result = await con.query(sql, [
+        userid,
+        userid,
+        userid,
+        userid,
+        userid,
+        userid,
+        userid,
+        userid,
+        userid,
+      ]);
+      return result;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+  async viewOne(idusers, friendid) {
+    //TODO  tylko jeden wynik,
+    //  odwrócone idu bo dane idą do frienda zamiast usera
+    try {
+      var sql = `SELECT DISTINCT tab.username, tab.idusers, tab.status, max(tab.roomid) AS roomid
+      FROM(
+      SELECT users.username, users.idusers, friends.status, userInRoom.roomid
+            FROM users
+            INNER JOIN friends
+            ON users.idusers=friends.user_id
+            OR (users.idusers=friends.friend_id AND friends.status=1)
+            LEFT JOIN userInRoom
+            ON users.idusers=userInRoom.userid
+            WHERE idusers IN
+            (SELECT friends.friend_id
+              FROM friends 
+              INNER JOIN users 
+              ON friends.user_id = users.idusers 
+              WHERE users.idusers=? 
+              UNION
+              SELECT friends.user_id
+              FROM friends 
+              INNER JOIN users 
+              ON friends.friend_id=users.idusers
+              WHERE users.idusers=?)
+              AND (friends.user_id=? OR friends.friend_id=?)
+              AND IF(friends.status=1,roomid IN 
+                (SELECT a.roomid
+                FROM userInRoom AS a
+                INNER JOIN userInRoom AS b
+                ON a.roomid = b.roomid
+                WHERE a.userid=users.idusers
+                AND b.userid=?),NULL)
+          UNION 
+              SELECT users.username, users.idusers, friends.status, NULL
+            FROM users
+            INNER JOIN friends
+            ON users.idusers=friends.user_id
+            OR (users.idusers=friends.friend_id AND friends.status=1)
+            WHERE idusers IN
+            (SELECT friends.friend_id
+            FROM friends 
+            INNER JOIN users 
+            ON friends.user_id = users.idusers 
+            WHERE users.idusers=? 
+            UNION
+            SELECT friends.user_id
+            FROM friends 
+            INNER JOIN users 
+            ON friends.friend_id=users.idusers
+            WHERE users.idusers=?)
+            AND (friends.user_id=? OR friends.friend_id=?)) AS tab
+            WHERE tab.idusers=?
+            GROUP BY tab.username  
+          `;
+      const result = await con.query(sql, [
+        friendid,
+        friendid,
+        friendid,
+        friendid,
+        friendid,
+        friendid,
+        friendid,
+        friendid,
+        friendid,
+        idusers,
+      ]);
       return result;
     } catch (err) {
       console.log(err);

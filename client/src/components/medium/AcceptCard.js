@@ -4,6 +4,7 @@ import Avatar from "components/small/Avatar";
 import styled from "styled-components";
 import axios from "axios";
 import OnlineCard from "./OnlineCard";
+import * as OnlineApi from "network/onlineUsers";
 
 const Container = styled.div`
   display: flex;
@@ -54,31 +55,19 @@ const AcceptCard = ({ username, src, alt, id }) => {
   const [isDeclineDisabled, setIsDeclineDisabled] = useState(false);
   async function handleAccept() {
     setIsAcceptDisabled(true);
-    try {
-      let { data } = await axios.put(`/friends/acceptFriend/${id}`);
-      let { succes } = data;
-      if (succes) {
-        setUserStatus("accepted");
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsAcceptDisabled(false);
+    let succes = await OnlineApi.acceptFriend(id);
+    if (succes) {
+      setUserStatus("accepted");
     }
+    setIsAcceptDisabled(false);
   }
   async function handleDecline() {
     setIsDeclineDisabled(true);
-    try {
-      let { data } = await axios.delete(`/friends/declineFriend/${id}`);
-      let { succes } = data;
-      if (succes) {
-        setUserStatus("declined");
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsDeclineDisabled(false);
+    let succes = await OnlineApi.declineFriend(id);
+    if (succes) {
+      setUserStatus("declined");
     }
+    setIsDeclineDisabled(false);
   }
   switch (userStatus) {
     case "waiting":
