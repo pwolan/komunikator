@@ -131,13 +131,15 @@ const ChatBox = styled.div`
 //   );
 // };
 
-// const [messages, setMessages] = useState([
-//   { senderid: 3, idmessages: 10, username: "XDDD", message: "ZXC" },
-// ]);
 const ChatRoom = ({ userContext, match }) => {
   const { roomId } = match.params;
+  //state
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  //refs
+  const messagesEndRef = React.useRef(null);
+  const chatBoxRef = React.useRef(null);
+
   useEffect(() => {
     //init
     ChatApi.changeRoom(roomId, () => {
@@ -147,8 +149,10 @@ const ChatRoom = ({ userContext, match }) => {
         if (data) {
           let messages = data.reverse();
           setMessages(messages);
-          setIsLoading(false);
+          //scroll down
+          messagesEndRef.current.scrollIntoView();
         }
+        setIsLoading(false);
       });
     });
 
@@ -162,17 +166,37 @@ const ChatRoom = ({ userContext, match }) => {
   }, [roomId]);
 
   function getMessage(message) {
-    console.log(message);
     setMessages((oldMessages) => [...oldMessages, message]);
+    const { scrollTop, scrollHeight, clientHeight } = chatBoxRef.current;
+    if (scrollHeight - scrollTop - clientHeight < 400) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   }
   async function fetchMoreMessages() {
     if (!isLoading) {
+      setIsLoading(true);
       let number = messages.length;
       let data = await ChatApi.fetchMessages(number);
       if (data) {
         let newMessages = data.reverse();
         setMessages((oldMessages) => [...newMessages, ...oldMessages]);
-        ChatApi.disableFetchMessages();
+        setIsLoading(false);
+        if (data.length === 0) {
+          ChatApi.disableFetchMessages();
+        } else {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  async function handleScroll() {
+    if (chatBoxRef.current.scrollTop <= 10) {
+      let [mostTopMsg] = chatBoxRef.current.children;
+      let isChanged = await fetchMoreMessages(messages.length);
+      if (isChanged) {
+        mostTopMsg.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   }
@@ -180,8 +204,7 @@ const ChatRoom = ({ userContext, match }) => {
   return (
     <Container>
       <ChatRoomNav />
-      <ChatBox>
-        {isLoading && <div>Loading...</div>}
+      <ChatBox ref={chatBoxRef} onScroll={handleScroll}>
         {messages &&
           messages.map((msg) => (
             <Message
@@ -190,13 +213,8 @@ const ChatRoom = ({ userContext, match }) => {
               {...msg}
             />
           ))}
-        <button
-          onClick={() => {
-            fetchMoreMessages();
-          }}
-        >
-          fetch
-        </button>
+        {isLoading && <div>Loading...</div>}
+        <div ref={messagesEndRef} />
       </ChatBox>
       <MessageSendForm />
     </Container>
