@@ -1,5 +1,4 @@
 const Chat = require("../model/chat");
-const Friend = require("../model/friend");
 const router = require("express").Router();
 
 module.exports = (io) => {
@@ -27,25 +26,29 @@ module.exports = (io) => {
       let { idusers, username, room } = session.user;
       try {
         let [message] = await Chat.send(room, idusers, msg);
+
         io.of("/chat").to(room).emit("updatechat", message);
+        let data = await Chat.getUsers(room);
+        console.log(data);
+        for (let { idusers } of data) {
+          // like last message one
+          let toSend = await Chat.getChat(idusers, room);
+          console.log(toSend);
+          // console.log(idusers, message);
+          io.of("/chats").to(idusers).emit("lastmessageschange", toSend);
+        }
       } catch (err) {
         console.log(err);
         socket.emit("sendmessage error", { idusers, username }, "Failed to write message!");
       }
     });
-    // /**
-    //  * returns user max 30 messages from current room
-    //  * @param number {Number} - number of already fetched messages
-    //  */
-    // socket.on("fetchmessage", async (number) => {
-    //   let { room } = socket.handshake.session.user;
-    //   console.log("room", room);
-    //   let data = await Chat.view(room, number);
-    //   if (data) {
-    //     socket.emit("fetchmessages", data);
-    //   } else {
-    //   }
-    // });
+  });
+
+  io.of("/chats").on("connection", (socket) => {
+    socket.on("changeroom", () => {
+      console.log(socket.handshake.session.user.idusers);
+      socket.join(socket.handshake.session.user.idusers);
+    });
   });
   router.get("/room/:roomId", (req, res) => {
     //TODO
@@ -58,9 +61,6 @@ module.exports = (io) => {
   router.get("/messages/:number", async (req, res) => {
     const { user } = req.session;
     let { number } = req.params;
-    if (!number) {
-      res.sendStatus(400);
-    }
     try {
       let data = await Chat.view(user.room, number);
       res.status(200).json(data);
@@ -76,5 +76,20 @@ module.exports = (io) => {
     res.json(data);
   });
 
+  /**
+   * fetching last chats
+   * for Chats component
+   * @param number {Number} - number of already fetched last messages/Friends
+   */
+  router.get("/last/:number", async (req, res) => {
+    const { number } = req.params;
+    const { idusers } = req.session.user;
+    let data = await Chat.last(idusers, number);
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      res.sendStatus(500);
+    }
+  });
   return router;
 };

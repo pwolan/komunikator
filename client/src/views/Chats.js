@@ -11,74 +11,94 @@ const Container = styled.div`
 
 const Chats = () => {
   const [chats, setChats] = useState([]);
-  async function fetchNewChats() {
-    ChatsApi.fetchChats(0).then((data) => {
-      if (data) {
-        setChats((chats) => [...chats, ...data]);
-      }
-    });
-    //TODO fetchNEwChats
-  }
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    fetchNewChats();
-  });
+    ChatsApi.enableFetchChats();
+    ChatsApi.fetchChats(0).then((data) => {
+      if (data && typeof data == "object") {
+        setChats(data);
+      }
+      setIsLoading(false);
+    });
+    ChatsApi.subscribeLast(changeLastMessages);
+    return () => {
+      setIsLoading(true);
+    };
+  }, []);
+  function changeLastMessages([message]) {
+    setChats((prevChats) => {
+      let newChats = prevChats.filter(({ idrooms }) => idrooms !== message.idrooms);
+      newChats = [message, ...newChats];
+      return newChats;
+    });
+  }
+  //TODO
+  let StyledLoad = styled.div`
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    color: black;
+  `;
   return (
     <Container>
+      {isLoading && <StyledLoad>Loading...</StyledLoad>}
       {chats.map((props) => (
-        <FriendCard key={props.idusers} {...props} />
+        <FriendCard key={props.idrooms} {...props} />
       ))}
-      <FriendCard
+      {/* <FriendCard
         notify
-        username="Łebol"
-        lastMsg="Chłopcy jest już środa."
+        roomname="Łebol"
+        message="Chłopcy jest już środa."
         time="00:10"
-        avatarSrc="/avatars/lebol.png"
+        avatar="/avatars/lebol.png"
       />
       <FriendCard
         notify
-        username="Johny Bravo"
-        lastMsg="Lubie placki i inne takie wszelakie"
+        roomname="Johny Bravo"
+        message="Lubie placki i inne takie wszelakie"
         time="16:23"
-        avatarSrc="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png"
+        avatar="http://3.bp.blogspot.com/-py-G-pEM0JE/UoQQnFLAi1I/AAAAAAAABOA/5Cxap21-LDA/s1600/johnny_bravo.png"
       />
       <FriendCard
         notify
-        username="Fred Flinestone"
-        lastMsg="Łabadabaduuuuu!"
+        roomname="Fred Flinestone"
+        message="Łabadabaduuuuu!"
         time="13:30"
-        avatarSrc="https://img.favpng.com/25/24/15/fred-flintstone-barney-rubble-wilma-flintstone-betty-rubble-pebbles-flinstone-png-favpng-WsAWKTZZivFNny5tkL7vxrkQ6.jpg"
+        avatar="https://img.favpng.com/25/24/15/fred-flintstone-barney-rubble-wilma-flintstone-betty-rubble-pebbles-flinstone-png-favpng-WsAWKTZZivFNny5tkL7vxrkQ6.jpg"
       />
       <FriendCard
-        username="Albert Einstein"
-        lastMsg="Suma kwadratu równa się długości obu ramion, E=mc^2!"
+        roomname="Albert Einstein"
+        message="Suma kwadratu równa się długości obu ramion, E=mc^2!"
         time="10:15"
-        avatarSrc="https://s.ciekawostkihistoryczne.pl/uploads/2019/03/Albert_Einstein_Head.jpg"
+        avatar="https://s.ciekawostkihistoryczne.pl/uploads/2019/03/Albert_Einstein_Head.jpg"
       />
       <FriendCard
-        username="Andrzej Duda"
-        lastMsg="Wszystko podpiszę!"
+        roomname="Długopis"
+        message="Nie pytają Cię o imię"
         time="10:03"
-        avatarSrc="https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/85115456_3320554797961404_738540031936823296_n.jpg?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=yTA8yPFVxtgAX_wI-9h&_nc_ht=scontent.fktw1-1.fna&oh=b6ec0380f05c4b04f9cfb5760a51ae00&oe=5EC30CB3"
+        avatar="https://scontent.fktw1-1.fna.fbcdn.net/v/t1.0-9/85115456_3320554797961404_738540031936823296_n.jpg?_nc_cat=1&_nc_sid=09cbfe&_nc_ohc=yTA8yPFVxtgAX_wI-9h&_nc_ht=scontent.fktw1-1.fna&oh=b6ec0380f05c4b04f9cfb5760a51ae00&oe=5EC30CB3"
       />
       <FriendCard
-        username="Krecik"
-        lastMsg="Pukam w taborecik"
+        roomname="Krecik"
+        message="Pukam w taborecik"
         time="09:56"
-        avatarSrc="https://static.puzzlefactory.pl/puzzle/169/875/original.jpg"
+        avatar="https://static.puzzlefactory.pl/puzzle/169/875/original.jpg"
       />
       <FriendCard
         notify
-        username="Bolek"
-        lastMsg="Widzieliście gdzieś Lolka i Tolę?"
+        roomname="Bolek"
+        message="Widzieliście gdzieś Lolka i Tolę?"
         time="08:40"
-        avatarSrc=""
+        avatar=""
       />
       <FriendCard
-        username="Olinek Okrąglinek"
-        lastMsg="Okrągły świat, okrągłe życie, ale ze mnie marzyciel!"
+        roomname="Olinek Okrąglinek"
+        message="Okrągły świat, okrągłe życie, ale ze mnie marzyciel!"
         time="00:34"
-        avatarSrc="https://czasdzieci.pl/pliki/bajki/f_ba_1503_43389.jpg"
-      />
+        avatar="https://czasdzieci.pl/pliki/bajki/f_ba_1503_43389.jpg"
+      /> */}
     </Container>
   );
 };

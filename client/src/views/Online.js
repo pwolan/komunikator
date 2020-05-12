@@ -19,7 +19,9 @@ const Online = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     OnlineApi.fetchOnlineUsers().then((newUsers) => {
-      setUsers((users) => [...newUsers, ...users]);
+      if (newUsers) {
+        setUsers((users) => [...newUsers, ...users]);
+      }
     });
 
     OnlineApi.subscribe(

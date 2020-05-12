@@ -7,7 +7,6 @@ export const changeRoom = async (roomId, next) => {
   enableFetchMessages();
   socket.emit("changeroom", roomId);
   socket.on("changeroom succes", () => {
-    console.log("changeroom succes!");
     socket.off("changeroom succes");
     next();
   });
@@ -24,13 +23,11 @@ let fetchCancelToken = axios.CancelToken.source();
 let fetchTimeoutToken;
 let isFetchMessageEnabled = true;
 export const fetchMessages = async (number) => {
-  console.log(isFetchMessageEnabled);
   if (!isFetchMessageEnabled) return null;
   try {
     let { data } = await axios.get(`/chat/messages/${number}`, {
       cancelToken: fetchCancelToken.token,
     });
-    console.log(data);
     return data;
   } catch (err) {
     if (axios.isCancel(err)) {
@@ -61,43 +58,16 @@ export const cancelFetch = async () => {
 //#region subscribtion
 
 export const subscribeRoom = (callback) => {
-  console.log("Subscribed");
   socket.on("updatechat", callback);
   socket.on("sendmessage error", () => {
     console.error("Failed to write a message!");
   });
 };
 export const unSubscribeRoom = () => {
-  console.log("Unsub");
   socket.off("updatechat");
   socket.off("sendmessage error");
 };
 
-//#region sendMessage
 export const sendMessage = async (msg) => {
-  // console.log(msg);
   socket.emit("sendmessage", msg);
 };
-
-//#region changeRoom
-// let changeRoomCancel = axios.CancelToken.source();
-// export const changeRoom = async (roomId) => {
-//   console.log(socket.connected);
-//   try {
-//     let { data } = await axios.get(`/chat/changeRoom/${roomId}`, {
-//       cancelToken: changeRoomCancel.token,
-//     });
-//     console.log(data);
-//   } catch (err) {
-//     if (axios.isCancel(err)) {
-//       console.log("cancel");
-//       return;
-//     }
-//     console.error("Changing failed, reconnecting...");
-//     return setTimeout(changeRoom.bind(this, roomId), 500);
-//   }
-// };
-// export const cancelChangeRoom = async () => {
-//   changeRoomCancel.cancel("Leaving");
-//   changeRoomCancel = axios.CancelToken.source();
-// };

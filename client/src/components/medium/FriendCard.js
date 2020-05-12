@@ -2,6 +2,14 @@ import React from "react";
 import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 import Avatar from "components/small/Avatar";
+import moment from "moment";
+import { Link } from "react-router-dom";
+
+var lang = window.navigator.userLanguage || window.navigator.language;
+lang = lang.split("-")[0];
+try {
+  require(`moment/locale/${lang}`);
+} catch (err) {}
 
 const FriendCardContainer = styled.div`
   display: flex;
@@ -9,14 +17,15 @@ const FriendCardContainer = styled.div`
   background: ${({ theme }) => theme.color.gray.lighter};
   padding: 5px 10px;
   cursor: pointer;
-  ${({ newMess }) =>
-    newMess &&
+  ${({ newmess }) =>
+    newmess &&
     css`
       background: ${({ theme }) => theme.color.secondary};
       font-weight: 600;
     `}
   &:hover {
     background: ${({ theme }) => theme.color.gray.light};
+    text-decoration: none;
   }
 `;
 const FriendContent = styled.div`
@@ -26,8 +35,9 @@ const FriendContent = styled.div`
 const FriendName = styled.div`
   font-weight: bold;
   font-size: 18px;
-  ${({ newMess }) =>
-    newMess &&
+  color: black;
+  ${({ newmess }) =>
+    newmess &&
     css`
       font-weight: 900;
     `}
@@ -39,38 +49,54 @@ const FriendText = styled.div`
   width: 100%;
   font-size: 14px;
   padding-right: 15px;
+  color: black;
 `;
 const FriendTime = styled.div`
   font-size: 11px;
+  color: black;
 `;
 
-const FriendCard = ({ avatarSrc, notify, username, lastMsg, time, alt }) => {
+const FriendCard = ({ avatar, notify, roomname, idrooms, message, date, alt }) => {
+  console.log(lang);
+  moment.locale(lang);
+  let now = new moment().valueOf();
+  console.log(moment.locale());
+  let Moment;
+  let time = parseInt(now) - parseInt(date);
+  console.log(time);
+  if (time < 86400000) {
+    Moment = new moment(date).format("LT");
+  } else if (time < 604800000) {
+    Moment = new moment(date).format("ddd.");
+  } else {
+    Moment = new moment(date).format("DD.MM");
+  }
+  console.log(notify);
   return (
-    <FriendCardContainer newMess={notify}>
-      <Avatar src={avatarSrc} alt={alt} />
+    <FriendCardContainer newmess={notify} as={Link} to={`/chats/${idrooms}`}>
+      <Avatar src={avatar} alt={alt} />
       <FriendContent>
-        <FriendName newMess={notify}>{username}</FriendName>
-        <FriendText>{lastMsg}</FriendText>
-        <FriendTime>{time}</FriendTime>
+        <FriendName newmess={notify}>{roomname}</FriendName>
+        <FriendText>{message}</FriendText>
+        <FriendTime>{Moment.toString()}</FriendTime>
       </FriendContent>
     </FriendCardContainer>
   );
 };
 
 FriendCard.propTypes = {
-  avatarSrc: PropTypes.string,
-  notify: PropTypes.bool,
-  username: PropTypes.string.isRequired,
-  lastMsg: PropTypes.string,
-  time: PropTypes.string,
+  avatar: PropTypes.string,
+  // notify: PropTypes.bool,
+  roomname: PropTypes.string.isRequired,
+  message: PropTypes.string,
+  date: PropTypes.number.isRequired,
   alt: PropTypes.string,
 };
 
 FriendCard.defaultProps = {
-  avatarSrc: "/avatars/default.png",
+  avatar: "/avatars/default.png",
   notify: false,
-  lastMsg: "",
-  time: "",
+  message: "",
   alt: "",
 };
 
