@@ -27,11 +27,16 @@ module.exports = function (io) {
       const { friendId } = req.params;
       let userId = req.session.user.idusers;
       let succes = await Friend.accept(userId, friendId);
+      console.log(succes);
+      await Chat.create([userId, friendId]);
+      let [data] = await Friend.new(userId, friendId);
+      data.status = 1;
       if (succes) {
         console.log("SENDING INVITESTATUS CHANGE");
-        io.of("/friends").to(friendId).emit("statuschange", { idusers: userId, inviteStatus: 1 });
+        io.of("/friends").to(friendId).emit("statuschange", data);
+        console.log(data);
       }
-      Chat.create([userId, friendId]);
+      //Chat.create([userId, friendId]);
       res.json({
         succes,
       });

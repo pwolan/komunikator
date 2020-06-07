@@ -29,12 +29,21 @@ const Username = styled.div`
   color: white;
   font-weight: bold;
   font-size: 25px;
+  padding: 0;
+  height: 30px;
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 30px;
+    height: 35px;
+  }
 `;
 const Logout = styled.a`
   color: white;
   &:hover {
     text-decoration: none;
     color: ${({ theme }) => theme.color.primary};
+  }
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 18px;
   }
 `;
 

@@ -17,6 +17,10 @@ const StyledContainer = styled.div`
 
 const StyledImg = styled.img`
   filter: invert(100%);
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    width: 35px;
+    height: 35px;
+  }
 `;
 const StyledSpan = styled.span`
   margin: 0;
@@ -29,6 +33,10 @@ const StyledSpan = styled.span`
     font-weight: 900;
     font-size: 26px;
     padding-left: 5px;
+  }
+
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 38px;
   }
 `;
 

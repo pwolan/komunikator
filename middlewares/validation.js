@@ -12,7 +12,7 @@ module.exports = {
         if (succes) {
           return value;
         } else {
-          throw new Error("Invalid username or password hhh");
+          throw new Error("Invalid username or password");
         }
       }),
     check("password")
@@ -22,7 +22,7 @@ module.exports = {
       .withMessage(
         "Password must be at least 8 characters, has at least one big letter and special character"
       )
-      .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])")
+      .matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])"),
   ],
   checkRegister: [
     check("mail", "cos")
@@ -80,22 +80,20 @@ module.exports = {
     check("birth_date")
       .isBefore(new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18).toString())
       .withMessage("You must be adult!"),
-    check("sex")
-      .notEmpty()
-      .withMessage("Are you genderless!? Come on!"),
-    check("terms", "You must accept before you get into!").notEmpty()
+    check("sex").notEmpty().withMessage("Are you genderless!? Come on!"),
+    check("terms", "You must accept before you get into!").notEmpty(),
   ],
   validation(req, templateFields) {
     const errors = validationResult(req);
     const err = errors.array();
-    let fields = templateFields.map(field => {
+    let fields = templateFields.map((field) => {
       // console.log("field", field);
-      let obj = err.find(e => e.param === field.name);
+      let obj = err.find((e) => e.param === field.name);
       // console.log(obj);
       let returnValue = {
         ...field,
         errorMsg: obj ? obj.msg : "",
-        value: req.body[field.name]
+        value: req.body[field.name],
       };
       if (field.name == "password" || field.name == "repeatPassword") {
         delete returnValue.value;
@@ -104,7 +102,7 @@ module.exports = {
     });
     return {
       succes: errors.isEmpty(),
-      fields
+      fields,
     };
-  }
+  },
 };

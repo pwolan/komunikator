@@ -14,6 +14,9 @@ const SenderMessage = styled.div`
   border-radius: 10px;
   padding: 10px;
   background: rgb(241, 245, 248);
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 18px;
+  }
 `;
 
 const Reciver = styled.div`
@@ -36,6 +39,9 @@ const ReciverMessage = styled.div`
   padding: 10px;
   margin-left: 20px;
   background: rgb(255, 165, 0);
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 18px;
+  }
 `;
 const Message = ({ message, username, avatar, user }) => {
   if (user) {

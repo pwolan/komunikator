@@ -14,5 +14,10 @@ const SectionTitle = styled.div`
   @media (min-width: ${({ theme }) => theme.media.large}) {
     display: flex;
   }
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    h3 {
+      font-size: 38px;
+    }
+  }
 `;
 export default SectionTitle;

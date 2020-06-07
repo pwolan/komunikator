@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Avatar from "components/small/Avatar";
 import styled from "styled-components";
-import axios from "axios";
 import OnlineCard from "./OnlineCard";
 import * as OnlineApi from "network/onlineUsers";
 
@@ -49,13 +48,13 @@ const StyledButton = styled.button`
   }
 `;
 
-const AcceptCard = ({ username, src, alt, id }) => {
+const AcceptCard = ({ username, src, alt, idusers }) => {
   const [userStatus, setUserStatus] = useState("waiting");
   const [isAcceptDisabled, setIsAcceptDisabled] = useState(false);
   const [isDeclineDisabled, setIsDeclineDisabled] = useState(false);
   async function handleAccept() {
     setIsAcceptDisabled(true);
-    let succes = await OnlineApi.acceptFriend(id);
+    let succes = await OnlineApi.acceptFriend(idusers);
     if (succes) {
       setUserStatus("accepted");
     }
@@ -63,7 +62,7 @@ const AcceptCard = ({ username, src, alt, id }) => {
   }
   async function handleDecline() {
     setIsDeclineDisabled(true);
-    let succes = await OnlineApi.declineFriend(id);
+    let succes = await OnlineApi.declineFriend(idusers);
     if (succes) {
       setUserStatus("declined");
     }
@@ -86,7 +85,7 @@ const AcceptCard = ({ username, src, alt, id }) => {
         </Container>
       );
     case "accepted":
-      return <OnlineCard username={username} src={src} alt={alt} id={id} />;
+      return <OnlineCard username={username} src={src} alt={alt} idusers={idusers} />;
     case "declined":
       return null;
   }

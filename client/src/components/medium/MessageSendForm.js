@@ -32,6 +32,9 @@ const SendButton = styled.button`
   border-radius: 10px;
   color: white;
   background: rgb(255, 165, 0);
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 18px;
+  }
 `;
 
 const MessageSendForm = () => {

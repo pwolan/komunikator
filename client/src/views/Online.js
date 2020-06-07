@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import OnlineCard from "components/medium/OnlineCard";
 import styled from "styled-components";
-// import { connect } from "react-redux";
-// import { fetchOnlineUsers } from "actions";
 import AcceptCard from "components/medium/AcceptCard";
 import * as OnlineApi from "network/onlineUsers";
 
@@ -29,20 +27,21 @@ const Online = () => {
         console.log("INVITE", newUser);
         setUsers((users) => [newUser, ...users]);
       },
-      (data) => {
+      (d) => {
         console.log("statuschange");
-        console.log(data);
+        console.log(d);
+        setUsers((users) => [d, ...users]);
       }
     );
     return OnlineApi.unsubscribe;
   }, []);
   return (
     <Container>
-      {users.map(({ idusers, username, avatar, status, roomid }) => {
-        const cardProps = { key: idusers, id: idusers, username, avatar, roomid };
-        if (status === 1) {
+      {users.map((props) => {
+        const cardProps = { key: props.idusers, ...props };
+        if (props.status === 1) {
           return <OnlineCard {...cardProps} />;
-        } else if (status === 0) {
+        } else if (props.status === 0) {
           return <AcceptCard {...cardProps} />;
         }
       })}

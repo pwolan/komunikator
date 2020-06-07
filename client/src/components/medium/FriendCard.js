@@ -41,6 +41,10 @@ const FriendName = styled.div`
     css`
       font-weight: 900;
     `}
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 25px;
+    height: 29px;
+  }
 `;
 const FriendText = styled.div`
   white-space: nowrap;
@@ -50,10 +54,17 @@ const FriendText = styled.div`
   font-size: 14px;
   padding-right: 15px;
   color: black;
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 19px;
+    height: 23px;
+  }
 `;
 const FriendTime = styled.div`
   font-size: 11px;
   color: black;
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 14px;
+  }
 `;
 
 const FriendCard = ({ avatar, notify, roomname, idrooms, message, date, alt }) => {

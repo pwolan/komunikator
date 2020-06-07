@@ -43,9 +43,15 @@ const Dot = styled.div`
 const Username = styled.div`
   font-weight: bold;
   font-size: 18px;
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 25px;
+  }
 `;
 const Status = styled.div`
   font-size: 14px;
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 18px;
+  }
 `;
 
 const OnlineCard = ({ username, src, alt, roomid }) => {

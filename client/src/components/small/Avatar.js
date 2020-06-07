@@ -7,6 +7,10 @@ const AvatarContainer = styled.div`
   height: 80px;
   width: 80px;
   position: relative;
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    width: 100px;
+    height: 100px;
+  }
 `;
 const AvatarImg = styled.img`
   height: 80%;

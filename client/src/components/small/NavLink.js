@@ -19,6 +19,11 @@ const StyledLi = styled.li`
   &:hover {
     background: ${({ theme }) => theme.color.gray.dark};
   }
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    a {
+      font-size: 28px;
+    }
+  }
 `;
 
 const DesktopNavLink = ({ to, children }) => (

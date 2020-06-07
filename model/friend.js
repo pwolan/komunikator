@@ -15,7 +15,7 @@ module.exports = {
     SELECT friends.user_id
     FROM friends 
     INNER JOIN users 
-    ON friends.friend_id=users.idusers 
+    ON friends.friend_id=users.idusers
     WHERE users.idusers=?)
     AND users.idusers!=? 
     AND users.username LIKE ?
@@ -41,7 +41,28 @@ module.exports = {
   async accept(userid, friendid) {
     try {
       var sql = `UPDATE friends SET friends.status = 1 WHERE friends.user_id=? AND friends.friend_id=?`;
-      const result = await con.query(sql, [friendid, userid, friendid]);
+      const result = await con.query(sql, [friendid, userid]);
+      return result;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+  async new(userid, friendid) {
+    try {
+      var sql = `SELECT users.idusers, users.username, users.avatar, userInRoom.roomid
+    FROM users
+    INNER JOIN userInRoom
+    WHERE roomid IN
+    (SELECT a.roomid
+    FROM userInRoom AS a
+    INNER JOIN userInRoom AS b
+    ON a.roomid = b.roomid
+    WHERE a.userid=?
+    AND b.userid=?)
+    AND users.idusers=?
+    GROUP BY users.username`;
+      const result = await con.query(sql, [userid, friendid, userid]);
       return result;
     } catch (err) {
       console.log(err);

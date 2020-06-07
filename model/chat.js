@@ -5,7 +5,7 @@ module.exports = {
     var sql = `INSERT INTO rooms (name_room) VALUES (?);`;
     try {
       const { insertId } = await con.query(sql, [name_room]);
-      this.add(insertId, ids);
+      await this.add(insertId, ids);
     } catch (err) {
       console.log(err);
       return false;

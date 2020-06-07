@@ -47,7 +47,13 @@ const Chats = () => {
       {chats.map((props) => (
         <FriendCard key={props.idrooms} {...props} />
       ))}
-      {/* <FriendCard
+    </Container>
+  );
+};
+
+export default Chats;
+{
+  /* <FriendCard
         notify
         roomname="Łebol"
         message="Chłopcy jest już środa."
@@ -98,9 +104,5 @@ const Chats = () => {
         message="Okrągły świat, okrągłe życie, ale ze mnie marzyciel!"
         time="00:34"
         avatar="https://czasdzieci.pl/pliki/bajki/f_ba_1503_43389.jpg"
-      /> */}
-    </Container>
-  );
-};
-
-export default Chats;
+      /> */
+}
