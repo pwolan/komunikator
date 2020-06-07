@@ -10,7 +10,9 @@ const Sender = styled.div`
 const SenderMessage = styled.div`
   margin-left: auto;
   margin-right: 10px;
-  width: 65%;
+  max-width: 65%;
+  width: -webkit-fit-content;
+  width: fit-content;
   border-radius: 10px;
   padding: 10px;
   background: rgb(241, 245, 248);
@@ -34,7 +36,7 @@ const ReciverAvatar = styled.img`
   margin-left: 10px;
 `;
 const ReciverMessage = styled.div`
-  width: 65%;
+  max-width: 65%;
   border-radius: 10px;
   padding: 10px;
   margin-left: 20px;
@@ -54,7 +56,7 @@ const Message = ({ message, username, avatar, user }) => {
     return (
       <Reciver>
         <ReciverContainer>
-          <ReciverAvatar />
+          <ReciverAvatar src="/avatars/default.png" alt="" />
         </ReciverContainer>
         <ReciverMessage>{message}</ReciverMessage>
       </Reciver>

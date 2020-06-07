@@ -13,6 +13,7 @@ export const changeRoom = async (roomId, next) => {
 };
 
 //#region roomData
+//TODO error and cancel handling
 export const getRoomData = async (roomId) => {
   let { data } = await axios.get(`/chat/room/stats/${roomId}`);
   return data[0];

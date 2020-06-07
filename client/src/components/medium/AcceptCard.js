@@ -48,7 +48,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const AcceptCard = ({ username, src, alt, idusers }) => {
+const AcceptCard = ({ username, src, alt, idusers, roomid }) => {
   const [userStatus, setUserStatus] = useState("waiting");
   const [isAcceptDisabled, setIsAcceptDisabled] = useState(false);
   const [isDeclineDisabled, setIsDeclineDisabled] = useState(false);
@@ -85,7 +85,9 @@ const AcceptCard = ({ username, src, alt, idusers }) => {
         </Container>
       );
     case "accepted":
-      return <OnlineCard username={username} src={src} alt={alt} idusers={idusers} />;
+      return (
+        <OnlineCard username={username} src={src} alt={alt} idusers={idusers} roomid={roomid} />
+      );
     case "declined":
       return null;
   }

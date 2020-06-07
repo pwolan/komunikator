@@ -36,7 +36,6 @@ module.exports = function (io) {
         io.of("/friends").to(friendId).emit("statuschange", data);
         console.log(data);
       }
-      //Chat.create([userId, friendId]);
       res.json({
         succes,
       });

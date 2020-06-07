@@ -2,11 +2,40 @@ import React, { useState, useEffect } from "react";
 import FriendCard from "components/medium/FriendCard";
 import styled from "styled-components";
 import * as ChatsApi from "network/chats";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   overflow: auto;
   flex-grow: 1;
   background-color: ${({ theme }) => theme.color.gray.lighter};
+  height: 100%;
+`;
+let StyledLoad = styled.div`
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  color: black;
+`;
+let Empty = styled.div`
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  color: black;
+  flex-direction: column;
+  @media (min-width: ${({ theme }) => theme.media.large}) {
+    font-size: 18px;
+  }
+  @media (min-width: ${({ theme }) => theme.media.extraLarge}) {
+    font-size: 25px;
+  }
+`;
+let StyledIcon = styled(FontAwesomeIcon)`
+  font-size: 40px;
 `;
 
 const Chats = () => {
@@ -32,21 +61,19 @@ const Chats = () => {
       return newChats;
     });
   }
-  //TODO
-  let StyledLoad = styled.div`
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
-    color: black;
-  `;
+  let displayEmpty = !isLoading && chats.length === 0;
   return (
     <Container>
       {isLoading && <StyledLoad>Loading...</StyledLoad>}
       {chats.map((props) => (
         <FriendCard key={props.idrooms} {...props} />
       ))}
+      {displayEmpty && (
+        <Empty>
+          It's definitely too quiet here!
+          <StyledIcon icon={faCommentSlash} />
+        </Empty>
+      )}
     </Container>
   );
 };

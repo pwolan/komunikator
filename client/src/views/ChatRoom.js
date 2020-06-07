@@ -93,7 +93,6 @@ const ChatRoom = ({ userContext, match }) => {
       }
     }
   }
-  //TODO
   let StyledLoad = styled.div`
     display: flex;
     height: 100%;

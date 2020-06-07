@@ -72,6 +72,7 @@ module.exports = (io) => {
   router.get("/room/stats/:roomId", async (req, res) => {
     const { idusers } = req.session.user;
     const { roomId } = req.params;
+    console.log("TEst:", idusers, roomId);
     let data = await Chat.stats(roomId, idusers);
     res.json(data);
   });

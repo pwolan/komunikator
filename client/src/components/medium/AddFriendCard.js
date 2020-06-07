@@ -45,6 +45,9 @@ const StyledButton = styled.button`
   &:focus {
     outline: 0;
   }
+  &:hover {
+    background: ${({ theme }) => theme.color.hover};
+  }
 `;
 const Send = styled.div`
   margin-left: auto;

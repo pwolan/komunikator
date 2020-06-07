@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import withContext from "context/withContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faPhoneAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
+import * as ChatApi from "network/chatroom";
+import { withRouter } from "react-router";
 
 const Container = styled.div`
   height: 56px;
@@ -49,13 +51,24 @@ const StyledCall = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
-const ChatRoomNav = ({ roomData, userContext }) => {
-  const { roomName } = roomData || {};
+const ChatRoomNav = ({ match }) => {
+  let [roomName, setRoomName] = useState("");
+  let { roomId } = match.params;
+  async function init(roomId) {
+    console.log(roomId);
+    let roomData = await ChatApi.getRoomData(roomId);
+    console.log(roomData);
+    setRoomName(roomData.roomName);
+  }
+  useEffect(() => {
+    init(roomId);
+    console.log("effect");
+  }, [roomId]);
   return (
     <Container>
       <StyledLeft icon={faArrowLeft} />
       <AvatarContainer>
-        <Avatar src="" alt="" />
+        <Avatar src="/avatars/default.png" alt="" />
       </AvatarContainer>
       <h5>{roomName}</h5>
       <Buttons>
@@ -66,4 +79,4 @@ const ChatRoomNav = ({ roomData, userContext }) => {
   );
 };
 
-export default withContext(ChatRoomNav);
+export default withRouter(withContext(ChatRoomNav));
