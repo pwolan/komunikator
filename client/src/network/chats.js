@@ -21,7 +21,7 @@ export const fetchChats = async (number) => {
       return null;
     }
     console.error("Cannot connect to the server, reconnecting...");
-    fetchTimeoutToken = setTimeout(fetchChats.bind(this, number));
+    fetchTimeoutToken = setTimeout(fetchChats.bind(this, number), 1000);
     return fetchTimeoutToken;
   }
 };

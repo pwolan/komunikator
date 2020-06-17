@@ -18,7 +18,7 @@ const FriendCardContainer = styled.div`
   padding: 5px 10px;
   cursor: pointer;
   ${({ newmess }) =>
-    newmess &&
+    newmess === 0 &&
     css`
       background: ${({ theme }) => theme.color.secondary};
       font-weight: 600;
@@ -37,7 +37,7 @@ const FriendName = styled.div`
   font-size: 18px;
   color: black;
   ${({ newmess }) =>
-    newmess &&
+    newmess === 0 &&
     css`
       font-weight: 900;
     `}
@@ -67,14 +67,19 @@ const FriendTime = styled.div`
   }
 `;
 
-const FriendCard = ({ avatar, notify, roomname, idrooms, message, date, alt }) => {
-  console.log(lang);
+const FriendCard = ({
+  avatar,
+  roomname,
+  idrooms,
+  message,
+  date,
+  alt,
+  readed,
+}) => {
   moment.locale(lang);
   let now = new moment().valueOf();
-  console.log(moment.locale());
   let Moment;
   let time = parseInt(now) - parseInt(date);
-  console.log(time);
   if (time < 86400000) {
     Moment = new moment(date).format("LT");
   } else if (time < 604800000) {
@@ -82,12 +87,12 @@ const FriendCard = ({ avatar, notify, roomname, idrooms, message, date, alt }) =
   } else {
     Moment = new moment(date).format("DD.MM");
   }
-  console.log(notify);
+  console.log(idrooms);
   return (
-    <FriendCardContainer newmess={notify} as={Link} to={`/chats/${idrooms}`}>
+    <FriendCardContainer newmess={readed} as={Link} to={`/chats/${idrooms}`}>
       <Avatar src={avatar} alt={alt} />
       <FriendContent>
-        <FriendName newmess={notify}>{roomname}</FriendName>
+        <FriendName newmess={readed}>{roomname}</FriendName>
         <FriendText>{message}</FriendText>
         <FriendTime>{Moment.toString()}</FriendTime>
       </FriendContent>

@@ -20,13 +20,16 @@ module.exports = {
     return;
   },
   async send(roomid, senderid, message) {
-    //let date = new Date();
-    //let now = date.getTime();
-    //console.log(date);
     let now = Date.now();
     console.log(now);
-    var sql = "INSERT INTO messages (roomid,senderid,message,date) VALUES (?,?,?,?)";
+    var sql =
+      "INSERT INTO messages (roomid,senderid,message,date) VALUES (?,?,?,?)";
     const { insertId } = await con.query(sql, [roomid, senderid, message, now]);
+    var sql3 = `UPDATE userInRoom 
+    SET userInRoom.readed=0
+    WHERE roomid=?
+    AND userid!=?`;
+    await con.query(sql3, [roomid, senderid]);
     var sql2 = `SELECT users.username, users.avatar, messages.idmessages, messages.senderid, messages.message, messages.date
     FROM messages
     INNER JOIN users
@@ -71,7 +74,8 @@ module.exports = {
   },
   async last(userid, number) {
     var limit = parseInt(number);
-    let sql = `SELECT rooms.idrooms, IFNULL(rooms.name_room, users.username) AS roomname, IFNULL(rooms.avatar_room, users.avatar) AS avatar, messages.message, messages.date
+    let sql = `SELECT box1.*, box2.readed FROM
+    (SELECT rooms.idrooms as idrooms, IFNULL(rooms.name_room, users.username) AS roomname, IFNULL(rooms.avatar_room, users.avatar) AS avatar, messages.message, messages.date, userInRoom.readed
     FROM users
     INNER JOIN userInRoom
     ON users.idusers=userInRoom.userid
@@ -101,9 +105,17 @@ module.exports = {
         GROUP BY roomid)
     GROUP BY rooms.idrooms
     ORDER BY messages.date DESC
-    LIMIT ?,20`;
+    LIMIT ?,20) box1
+    LEFT JOIN
+    (SELECT userInRoom.readed, rooms.idrooms AS idrooms
+    FROM userInRoom
+    INNER JOIN rooms
+    ON userInRoom.roomid=rooms.idrooms
+    WHERE userInRoom.userid=?
+    AND userInRoom.roomid=rooms.idrooms) box2
+    ON box1.idrooms=box2.idrooms`;
     try {
-      const result = await con.query(sql, [userid, userid, limit]);
+      const result = await con.query(sql, [userid, userid, limit, userid]);
       return result;
     } catch (err) {
       console.error(err);
@@ -122,7 +134,8 @@ module.exports = {
     return result;
   },
   async getChat(userid, roomid) {
-    let sql = `SELECT rooms.idrooms, IFNULL(rooms.name_room, users.username) AS roomname, IFNULL(rooms.avatar_room, users.avatar) AS avatar, messages.message, messages.date
+    let sql = `SELECT * FROM
+    (SELECT rooms.idrooms, IFNULL(rooms.name_room, users.username) AS roomname, IFNULL(rooms.avatar_room, users.avatar) AS avatar, messages.message, messages.date
     FROM users
     INNER JOIN userInRoom
     ON users.idusers=userInRoom.userid
@@ -152,8 +165,28 @@ module.exports = {
         GROUP BY roomid)
     AND rooms.idrooms=?
     GROUP BY rooms.idrooms
-    ORDER BY messages.date DESC;`;
-    const result = await con.query(sql, [userid, userid, roomid]);
+    ORDER BY messages.date DESC) box1,
+    (SELECT userInRoom.readed
+    FROM userInRoom
+    INNER JOIN rooms
+    ON userInRoom.roomid=rooms.idrooms
+    WHERE userInRoom.userid=?
+    AND userInRoom.roomid=?) box2;`;
+    const result = await con.query(sql, [
+      userid,
+      userid,
+      roomid,
+      userid,
+      roomid,
+    ]);
+    return result;
+  },
+  async readed(roomid, userid) {
+    let sql = `UPDATE userInRoom 
+    SET userInRoom.readed=1
+    WHERE roomid=?
+    AND userid=?`;
+    const result = await con.query(sql, [roomid, userid]);
     return result;
   },
 };

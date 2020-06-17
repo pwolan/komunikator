@@ -44,19 +44,24 @@ const Chats = () => {
   useEffect(() => {
     ChatsApi.enableFetchChats();
     ChatsApi.fetchChats(0).then((data) => {
-      if (data && typeof data == "object") {
+      if (data && typeof data === "object") {
         setChats(data);
       }
       setIsLoading(false);
     });
+
     ChatsApi.subscribeLast(changeLastMessages);
+
     return () => {
       setIsLoading(true);
     };
   }, []);
   function changeLastMessages([message]) {
+    console.log("mesedż", message);
     setChats((prevChats) => {
-      let newChats = prevChats.filter(({ idrooms }) => idrooms !== message.idrooms);
+      let newChats = prevChats.filter(
+        ({ idrooms }) => idrooms !== message.idrooms
+      );
       newChats = [message, ...newChats];
       return newChats;
     });

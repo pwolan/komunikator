@@ -2,20 +2,26 @@ const Chat = require("../model/chat");
 const router = require("express").Router();
 
 module.exports = (io) => {
-  io.of("/chat").on("connection", (socket) => {
+  const chatnsp = io.of("/chat");
+  const chatsnsp = io.of("/chats");
+  chatnsp.on("connection", (socket) => {
     let { session } = socket.handshake;
     /**
      * changing room when render ChatRoom
      * always run before the others
      * @param roomId {number} - id of room to join
      */
-    socket.on("changeroom", (roomId) => {
+    socket.on("changeroom", async (roomId) => {
       socket.leave(session.user.room);
       socket.handshake.session.user.room = roomId;
       socket.handshake.session.save();
       socket.join(roomId);
-      socket.emit("changeroom succes");
-      console.log(socket.handshake.session.user.room);
+
+      // change read status to readed
+      let { idusers } = session.user;
+      await Chat.readed(roomId, idusers);
+      let [message] = await Chat.getChat(idusers, roomId);
+      io.of("/chats").to(idusers).emit("lastmessageschange", message);
     });
     /**
      * message sending handler
@@ -29,22 +35,23 @@ module.exports = (io) => {
 
         io.of("/chat").to(room).emit("updatechat", message);
         let data = await Chat.getUsers(room);
-        console.log(data);
         for (let { idusers } of data) {
-          // like last message one
           let toSend = await Chat.getChat(idusers, room);
           console.log(toSend);
-          // console.log(idusers, message);
           io.of("/chats").to(idusers).emit("lastmessageschange", toSend);
         }
       } catch (err) {
         console.log(err);
-        socket.emit("sendmessage error", { idusers, username }, "Failed to write message!");
+        socket.emit(
+          "sendmessage error",
+          { idusers, username },
+          "Failed to write message!"
+        );
       }
     });
   });
 
-  io.of("/chats").on("connection", (socket) => {
+  chatsnsp.on("connection", (socket) => {
     socket.on("changeroom", () => {
       console.log(socket.handshake.session.user.idusers);
       socket.join(socket.handshake.session.user.idusers);
@@ -69,10 +76,12 @@ module.exports = (io) => {
     }
   });
 
+  /**
+   * fetching room stats like to header
+   */
   router.get("/room/stats/:roomId", async (req, res) => {
     const { idusers } = req.session.user;
     const { roomId } = req.params;
-    console.log("TEst:", idusers, roomId);
     let data = await Chat.stats(roomId, idusers);
     res.json(data);
   });
@@ -92,5 +101,6 @@ module.exports = (io) => {
       res.sendStatus(500);
     }
   });
+
   return router;
 };

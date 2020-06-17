@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import withContext from "context/withContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faPhoneAlt, faVideo } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faPhoneAlt,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
 import * as ChatApi from "network/chatroom";
 import { withRouter } from "react-router";
 
@@ -55,14 +59,11 @@ const ChatRoomNav = ({ match }) => {
   let [roomName, setRoomName] = useState("");
   let { roomId } = match.params;
   async function init(roomId) {
-    console.log(roomId);
     let roomData = await ChatApi.getRoomData(roomId);
-    console.log(roomData);
     setRoomName(roomData.roomName);
   }
   useEffect(() => {
     init(roomId);
-    console.log("effect");
   }, [roomId]);
   return (
     <Container>
